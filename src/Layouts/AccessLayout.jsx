@@ -52,7 +52,7 @@ function AccessLayout() {
                             </div>
                         </div>
 
-                        <Link to={"/studentSignup"} className="flex items-center justify-center gap-2 w-[250px] px-3 py-2.5  bg-gradient-to-r from-sky-500 to-blue-700  text-white my-5 mx-6 rounded-xl shadow-lg   transition-all duration-300 cursor-pointer">Kirish <FaLongArrowAltRight /></Link>
+                        <Link to={"/studentRegister"} className="flex items-center justify-center gap-2 w-[250px] px-3 py-2.5  bg-gradient-to-r from-sky-500 to-blue-700  text-white my-5 mx-6 rounded-xl shadow-lg   transition-all duration-300 cursor-pointer">Kirish <FaLongArrowAltRight /></Link>
                     </div>
                 )}
             </NavLink>
@@ -96,7 +96,7 @@ function AccessLayout() {
                             </div>
                         </div>
 
-                        <Link to={"/teacherSignup"} className=" flex items-center justify-center gap-2 w-[250px] px-3 py-2 bg-gradient-to-r from-[#00bc7d] to-[#007a6f]  text-white my-5 mx-6 rounded-xl shadow-lg   transition-all duration-300 cursor-pointer">
+                        <Link to={"/parentRegister"} className=" flex items-center justify-center gap-2 w-[250px] px-3 py-2 bg-gradient-to-r from-[#00bc7d] to-[#007a6f]  text-white my-5 mx-6 rounded-xl shadow-lg   transition-all duration-300 cursor-pointer">
                             Kirish <FaLongArrowAltRight />
                         </Link>
                     </div>

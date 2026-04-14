@@ -26,7 +26,7 @@ function Parent() {
         <div>
             <center className="my-8 flex items-center justify-center gap-2">
                 <MdOutlinePeopleAlt className="text-green-700 font-semibold" />
-                <h3 className="text-green-700 font-semibold">Farzandingiz muvaffaqiyati — sizning quvonchingiz</h3>
+                <h3 className="text-green-700 font-semibold">Bola baholanmaydi - fikri baholanadi</h3>
             </center>
             <div className="relative">
                 <div className="grid grid-cols-12 gap-5 ">
@@ -35,12 +35,14 @@ function Parent() {
                             <div className="absolute -left-3 -bottom-3 w-[70px] h-[70px] rounded-full bg-[#00867b]"></div>
                             <div className="absolute -right-4 -top-4 w-[90px] h-[90px] rounded-full bg-[#1aa095]"></div>
 
-                            <div className="relative z-10">
+                            <div className="relative z-10 flex items-center gap-3">
                                 <div className="w-[45px] h-[45px] rounded-lg bg-[#32bc9a] flex items-center justify-center">
                                     <MdOutlineRemoveRedEye size={25} className="text-white" />
                                 </div>
-                                <h3 className="text-white text-lg font-semibold mt-3">Real Vaqt Kuzatuvi</h3>
-                                <span className="text-white/70 text-xs font-semibold">Faollik · Grafik · Tahlil</span>
+                                <div >
+                                    <h3 className="text-white text-lg font-semibold mt-3">Bola fikrlashining rivojlanishi </h3>
+                                    <span className="text-white/70 text-xs font-semibold">Faollik · Grafik · Tahlil</span>
+                                </div>
                             </div>
                         </div>
 

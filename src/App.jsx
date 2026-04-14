@@ -7,9 +7,18 @@ import Teacher from "./roles/Teacher"
 import Parent from "./roles/Parent"
 
 // signup layouts
-import StudentSignup from "./register/signup/StudentSugnup"
-import TeacherSignup from "./register/signup/TeacherSignup"
-import ParentSignup from "./register/signup/ParentSugnup"
+import StudentRegister from "./register/register/StudentRegister"
+import StudentSignup from "./register/signup/StudentSignup"
+import StudentLogin from "./register/login/StudentLogin"
+
+import ParentRegister from "./register/register/ParentRegister"
+import ParentSignup from "./register/signup/ParentSignup"
+import ParentLogin from "./register/login/ParentLogin"
+
+import TeacherSignup from "./register/register/TeacherSignup"
+
+//pages
+import Dashboard from "./pages/Dashboard"
 
 function App() {
   const router = createBrowserRouter([
@@ -31,17 +40,45 @@ function App() {
         }
       ],
     },
+    // student
     {
-      path: "studentSignup",
-      element: <StudentSignup />
+      path: "studentregister",
+      element: <StudentRegister />,
+      children: [
+        {
+          index: true,
+          element: <StudentSignup />
+        },
+        {
+          path: "studentLogin",
+          element: <StudentLogin />
+        }
+      ]
+    },
+    // parent
+    {
+      path: "parentRegister",
+      element: <ParentRegister />,
+      children: [
+        {
+          index: true,
+          element: <ParentSignup />
+        },
+        {
+          path: "parentLogin",
+          element: <ParentLogin />
+        }
+      ]
     },
     {
       path: "teacherSignup",
       element: <TeacherSignup />
     },
+
+    //pages
     {
-      path: "parentSignup",
-      element: <ParentSignup />
+      path: "dashboard",
+      element: <Dashboard />
     }
   ])
 
