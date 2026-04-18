@@ -4,14 +4,8 @@ import { useState } from "react"
 function StudentLogin() {
     const [errors, setErrors] = useState({})
     const handleSubmit = () => {
-        let newErrors = {}
-        if (!form.id) newErrors.id = true
-        setErrors(newErrors)
-        if (Object.keys(newErrors).length === 0) {
-            console.log("OK ✅")
-        }
+        console.log("ishladi");
     }
-
     const [form, setForm] = useState({ id: "" })
     return (
         <div className="w-full h-[300px] border border-gray-300 rounded-xl shadow-md p-6">

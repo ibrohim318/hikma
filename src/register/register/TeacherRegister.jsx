@@ -6,9 +6,7 @@ import { IoArrowBackSharp } from "react-icons/io5";
 import { LuBrain } from "react-icons/lu";
 
 
-function ParentRegister() {
-
-
+function TeacherSignup() {
     return (
         <div className="relative grid grid-cols-12 h-screen overflow-hidden">
             <div className="col-span-6 h-full hidden lg:block">
@@ -16,13 +14,13 @@ function ParentRegister() {
 
                     {/* BG IMAGE */}
                     <img
-                        src="/parentSignup.jpg"
+                        src="/teacherSignup.jpg"
                         alt=""
                         className="absolute inset-0 w-full h-full object-cover"
                     />
 
                     {/* MAIN GRADIENT (eng muhim qism) */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-[#468072]/80 via-[#619a96]/70 to-[#3a7659]/80" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-[#4e1877]/80 via-[#834cac]/70 to-[#49418f]/80" />
 
                     {/* LIGHT PATTERN */}
                     <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:40px_40px]" />
@@ -47,7 +45,13 @@ function ParentRegister() {
                         {/* BOTTOM */}
                         <div className="max-w-md mb-[130px] ">
                             <div className="w-10 h-[3px] bg-white/40 mb-5"></div>
-                            <h2 className="text-4xl font-bold leading-tight">Farzand tarbiyasi —<br />kelajak asosi</h2>
+
+                            <h2 className="text-4xl font-bold leading-tight">
+                                Bilim —
+                                <br />
+                                eng buyuk boylik
+                            </h2>
+
                             <p className="mt-4 text-sm opacity-80 leading-relaxed">
                                 Har bir o‘rganilgan dars, har bir topilgan javob
                                 kelajagingni poydevori.
@@ -71,15 +75,15 @@ function ParentRegister() {
 
                     <div className="my-5">
                         <h1 className="text-2xl font-bold mt-2.5">Ro'yxatdan o'tish</h1>
-                        <p className="text-sm text-gray-400 ">Farzandingizni kuzatishni boshlang</p>
+                        <p className="text-sm text-gray-400 ">Kasbiy ma'lumotlaringizni kiriting</p>
                     </div>
 
                     {/* signup & login */}
                     <div className="mt-15 my-5 w-[55%] h-[44px] bg-[#ececf0] rounded-xl flex items-center justify-between ">
-                        <NavLink to="/parentRegister" end className={({ isActive }) => `w-[50%] h-[36px] mx-1 flex items-center justify-center rounded-xl ${isActive ? "bg-white transition-all duration-200" : "bg-transparent transition-all duration-200"}`}>
+                        <NavLink to="/teacherRegister" end className={({ isActive }) => `w-[50%] h-[36px] mx-1 flex items-center justify-center rounded-xl ${isActive ? "bg-white transition-all duration-200" : "bg-transparent transition-all duration-200"}`}>
                             <h1 className="text-black font-normal">Ro'yxatdan o'tish</h1>
                         </NavLink>
-                        <NavLink to={"/parentRegister/parentLogin"} end className={({ isActive }) => `w-[50%] h-[36px] mx-1 flex items-center justify-center rounded-xl ${isActive ? "bg-white transition-all duration-200" : "bg-transparent transition-all duration-200"}`}>
+                        <NavLink to={"/teacherRegister/teacherLogin"} end className={({ isActive }) => `w-[50%] h-[36px] mx-1 flex items-center justify-center rounded-xl ${isActive ? "bg-white transition-all duration-200" : "bg-transparent transition-all duration-200"}`}>
                             <h1 className="text-black font-normal">Kirish</h1>
                         </NavLink>
                     </div>
@@ -93,4 +97,4 @@ function ParentRegister() {
     )
 }
 
-export default ParentRegister
+export default TeacherSignup

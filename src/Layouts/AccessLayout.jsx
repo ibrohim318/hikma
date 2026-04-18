@@ -113,7 +113,7 @@ function AccessLayout() {
                                     <LuBrain size={25} className="text-white" />
                                 </div>
                                 <div>
-                                    <h3 className="text-sm text-purple-500 font-medium">Ota yoki Ona</h3>
+                                    <h3 className="text-sm text-purple-500 fonFt-medium">Ota yoki Ona</h3>
                                     <h1 className="text-lg font-semibold">Ota-ona</h1>
                                 </div>
                             </div>
@@ -124,7 +124,6 @@ function AccessLayout() {
                             </div>
                             )}
                         </div>
-
                         <div className="mx-6 space-y-2">
                             <div className="flex items-center gap-1.5">
                                 <div className="w-1.5 h-1.5 bg-purple-600 rounded-full"></div>
@@ -142,7 +141,7 @@ function AccessLayout() {
                             </div>
                         </div>
 
-                        <Link to={"/teacherSignup"} className="flex items-center justify-center gap-2 w-[250px] px-3 py-2  bg-gradient-to-r from-[#8d4dff] to-[#8200db]  text-white my-5 mx-6 rounded-xl shadow-lg   transition-all duration-300 cursor-pointer">
+                        <Link to={"/teacherRegister"} className="flex items-center justify-center gap-2 w-[250px] px-3 py-2  bg-gradient-to-r from-[#8d4dff] to-[#8200db]  text-white my-5 mx-6 rounded-xl shadow-lg   transition-all duration-300 cursor-pointer">
                             Kirish <FaLongArrowAltRight />
                         </Link>
                     </div>
