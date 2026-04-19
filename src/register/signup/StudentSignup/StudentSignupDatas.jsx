@@ -1,3 +1,5 @@
+import axios from "axios"
+
 import { useEffect, useState, useRef } from "react"
 // AOS
 import AOS from "aos"
@@ -56,7 +58,7 @@ function StudentSignupDatas() {
     };
 
     // SUBMIT
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         let newErrors = {};
         if (!name.trim()) newErrors.name = true;
         if (!lastName.trim()) newErrors.lastName = true;
@@ -65,16 +67,42 @@ function StudentSignupDatas() {
         if (!day) newErrors.day = true;
         if (!region) newErrors.region = true;
         if (!area.trim()) newErrors.area = true;
+
         setErrors(newErrors);
         if (Object.keys(newErrors).length > 0) return;
-        navigate("/studentregister/studentID");
 
+        const payload = {
+            first_name: name,
+            last_name: lastName,
+            father_name: "",
+            phone: phone,
+            gender: gender,
+            birth_date: day,
+            region: region,
+            district: area,
+            role: "type_a",
+            password: "12345678"
+        };
 
+        try {
+            const res = await axios.post(
+                "http://64.23.232.25:8000/signup/", // ✅ slash qo‘shildi
+                payload
+            );
+
+            console.log("SUCCESS:", res.data);
+
+            navigate("/dashboard");
+
+        } catch (err) {
+            console.log("ERROR:", err.response?.data || err.message);
+        }
     };
 
 
     return (
         <div>
+
             <div className=" ">
                 <div data-aos="fade-up">
                     {/* Name & Lastname */}
@@ -106,7 +134,7 @@ function StudentSignupDatas() {
 
                     {/* Gender */}
                     <div className="flex flex-col gap-2 mt-4">
-                        <label className="font-medium">Jins *</label>
+                        <label className="font-medium   ">Jins *</label>
                         <div className={`flex gap-4 ${errors.gender ? "animate-shake" : ""}`} onKeyDown={handleKeyDown}>
                             <button ref={maleRef} type="button" onClick={() => { setGender("erkak"); setErrors(prev => ({ ...prev, gender: false })); }} className={`px-[68px] py-2.5 rounded-xl border transition ${gender === "erkak" ? "bg-blue-100 border-blue-500" : "bg-gray-100"}`}>👦 Erkak</button>
                             <button ref={femaleRef} type="button" onClick={() => { setGender("ayol"); setErrors(prev => ({ ...prev, gender: false })); }} className={`px-[68px] py-2.5 rounded-xl border transition ${gender === "ayol" ? "bg-blue-100 border-blue-500" : "bg-gray-100"}`}>👩 Ayol</button>

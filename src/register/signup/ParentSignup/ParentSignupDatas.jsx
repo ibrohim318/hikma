@@ -68,8 +68,6 @@ function ParentSignupDatas() {
 
     };
 
- 
-
     return (
         <div>
             <div className=" ">
