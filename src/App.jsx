@@ -9,7 +9,7 @@ import Parent from "./roles/Parent"
 // student signup
 import StudentRegister from "./register/register/StudentRegister"
 import StudentSignup from "./register/signup/StudentSignup/StudentSignup"
-import StudentSignupDatas from "./register/signup/StudentSignup/StudentSignupDatas"
+// import StudentSignupDatas from "./register/signup/StudentSignup/StudentSignupDatas"
 import StudentID from "./register/signup/StudentSignup/StudentID"
 import StudentLogin from "./register/login/StudentLogin"
 
@@ -59,23 +59,11 @@ function App() {
         {
           path: "studentregister",
           element: <StudentSignup />,
-          children: [
-            {
-              index: true,
-              element: <StudentSignupDatas />
-            },
-            {
-              path: "studentID",
-              element: <StudentID />
-            },
-            {
-              path: "studentLogin",
-              element: <StudentLogin />
-            }
-          ],
-
         },
-
+        {
+          path: "studentLogin",
+          element: <StudentLogin />
+        }
       ]
     },
     // parent
@@ -86,23 +74,11 @@ function App() {
         {
           path: "parentRegister",
           element: <ParentSignup />,
-          children: [
-            {
-              index: true,
-              element: <ParentSignupDatas />
-            },
-            {
-              path: "parentID",
-              element: <ParentID />
-            },
-            {
-              path: "parentLogin",
-              element: <ParentLogin />
-            }
-          ],
-
         },
-
+        {
+          path: "parentLogin",
+          element: <ParentLogin />
+        }
       ]
     },
     // teacher
@@ -113,24 +89,11 @@ function App() {
         {
           path: "teacherRegister",
           element: <TeacherSignup />,
-          children: [
-            {
-              index: true,
-              element: <TeacherSignupDatas />
-            },
-            {
-              path: "teacherLogin",
-              element: <TeacherLogin />
-            },
-            {
-              path: "teacherID",
-              element: <TeacherID />
-            },
-
-          ],
-
         },
-
+        {
+          path: "teacherLogin",
+          element: <TeacherLogin />
+        },
       ]
     },
 

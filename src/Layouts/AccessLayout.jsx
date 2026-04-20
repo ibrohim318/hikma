@@ -113,8 +113,8 @@ function AccessLayout() {
                                     <LuBrain size={25} className="text-white" />
                                 </div>
                                 <div>
-                                    <h3 className="text-sm text-purple-500 fonFt-medium">Ota yoki Ona</h3>
-                                    <h1 className="text-lg font-semibold">Ota-ona</h1>
+                                    <h3 className="text-sm text-purple-500 fonFt-medium">Ustoz</h3>
+                                    <h1 className="text-lg font-semibold">Ustoz</h1>
                                 </div>
                             </div>
 

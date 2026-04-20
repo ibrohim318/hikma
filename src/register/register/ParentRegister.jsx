@@ -79,7 +79,7 @@ function ParentRegister() {
                         <NavLink to="/parentRegister" end className={({ isActive }) => `w-[50%] h-[36px] mx-1 flex items-center justify-center rounded-xl ${isActive ? "bg-white transition-all duration-200" : "bg-transparent transition-all duration-200"}`}>
                             <h1 className="text-black font-normal">Ro'yxatdan o'tish</h1>
                         </NavLink>
-                        <NavLink to={"/parentRegister/parentLogin"} end className={({ isActive }) => `w-[50%] h-[36px] mx-1 flex items-center justify-center rounded-xl ${isActive ? "bg-white transition-all duration-200" : "bg-transparent transition-all duration-200"}`}>
+                        <NavLink to={"/parentLogin"} end className={({ isActive }) => `w-[50%] h-[36px] mx-1 flex items-center justify-center rounded-xl ${isActive ? "bg-white transition-all duration-200" : "bg-transparent transition-all duration-200"}`}>
                             <h1 className="text-black font-normal">Kirish</h1>
                         </NavLink>
                     </div>

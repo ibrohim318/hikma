@@ -13,7 +13,6 @@ function StudentLogin() {
                 <h1 className="text-xl font-semibold">Tizimga kirish</h1>
                 <p className="text-sm text-gray-400 font-medium mt-0.5">IDR ID orqali kiring</p>
             </div>
-
             <div className="mt-[25px]">
                 <p className="text-lg font-medium">IDR ID raqami</p>
                 <div className={`w-full h-[39px] bg-gray-100 rounded-lg mt-2 flex items-center px-3 border ${errors.id ? "border-red-500" : "border-transparent"} focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-200 transition-all duration-200`}>

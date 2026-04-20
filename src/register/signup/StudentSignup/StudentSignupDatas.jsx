@@ -44,7 +44,6 @@ function StudentSignupDatas() {
     const handleKeyDown = (e) => {
         if (e.key === "Tab") {
             e.preventDefault();
-
             if (!gender) {
                 setGender("erkak");
                 maleRef.current.focus();
@@ -102,7 +101,6 @@ function StudentSignupDatas() {
 
     return (
         <div>
-
             <div className=" ">
                 <div data-aos="fade-up">
                     {/* Name & Lastname */}
