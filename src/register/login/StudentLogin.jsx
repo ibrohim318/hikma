@@ -1,27 +1,70 @@
-import { id } from "date-fns/locale"
 import { useState } from "react"
+
+// icons
+import { MdPhoneInTalk } from "react-icons/md";
+import { FcGoogle } from "react-icons/fc";
+
+// toaster
+import { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
+
+// API
+import useRegister from "../../hooks/useRegister";
+import { ROLES } from "../../constants/roles";
 
 function StudentLogin() {
     const [errors, setErrors] = useState({})
-    const handleSubmit = () => {
-        console.log("ishladi");
+    const [sms, setSms] = useState(false);
+
+    // sms signup 
+    function phone() {
+        setSms(true)
+
+        toast.success(" SMS xabar telefon raqamingizga yuborildi ", { position: "top-right", autoClose: 3000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, });
     }
-    const [form, setForm] = useState({ id: "" })
+
+    // google signup 
+    function google() {
+        setSms(false)
+
+        const id = toast.loading("Yuborilmoqda...");
+        setTimeout(() => {
+            toast.update(id, { render: "Xabar Email pochtangizga yuborildi ✅", type: "success", isLoading: false, autoClose: 3000, });
+        }, 2000);
+    }
+    // goDashboard
+    async function goDashboard() {
+        setSms(false)
+
+    }
+
     return (
-        <div className="w-full h-[300px] border border-gray-300 rounded-xl shadow-md p-6">
+        <div className={`w-[85%] ${sms ? "h-[300px] transition-all duration-300 ease-out" : "h-[190px] transition-all duration-300 ease-out"} border border-gray-300 rounded-xl shadow-md p-6`}>
             <div>
                 <h1 className="text-xl font-semibold">Tizimga kirish</h1>
-                <p className="text-sm text-gray-400 font-medium mt-0.5">IDR ID orqali kiring</p>
+                <p className="text-sm text-gray-400 font-medium mt-0.5">SMS yoki Google hisb bilan kiring</p>
             </div>
             <div className="mt-[25px]">
-                <p className="text-lg font-medium">IDR ID raqami</p>
-                <div className={`w-full h-[39px] bg-gray-100 rounded-lg mt-2 flex items-center px-3 border ${errors.id ? "border-red-500" : "border-transparent"} focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-200 transition-all duration-200`}>
-                    <input type="text" placeholder="IDR-2024-XXXX" value={form.id} onChange={(e) => setForm({ ...id, firstName: e.target.value })} className="w-full h-full focus:outline-none bg-gray-100" />
-                </div>
-                <span className="text-gray-300 text-sm  ">Namuna: IDR-2024-4521 (demo uchun istalgan ID kiriting)</span>
+                <div className="w-full flex gap-4">
+                    <button onClick={phone} className="w-1/2 h-[48px] bg-white border shadow-sm hover:shadow-md rounded-xl flex items-center justify-center gap-4   ">
+                        <MdPhoneInTalk className="w-5 h-5 text-blue-800" />
+                        <h1>SMS bilan</h1>
+                    </button>
 
-                <button onClick={handleSubmit} className="w-full h-[45px] rounded-xl bg-blue-700 hover:bg-blue-700 mt-6 flex items-center gap-3 justify-center text-white font-semibold ">Kirish</button>
+                    <button onClick={google} className="w-1/2 h-[48px] bg-white border shadow-sm hover:shadow-md rounded-xl flex items-center justify-center gap-4   ">
+                        <FcGoogle className="w-5 h-5 text-blue-800" />
+                        <h1>Google hisob bilan</h1>
+                    </button>
+                </div>
+                {/* sms input */}
+                {sms && <div>
+                    <div className="w-full h-[40px] bg-white border border-gray-300 rounded-xl my-6 flex items-center px-4 transition-all duration-300 ease-out focus-within:border-blue-500  focus-within:ring-2 focus-within:ring-blue-300 focus-within:shadow-lg  hover:border-gray-400">
+                        <input type="text" className="w-full h-full bg-transparent focus:outline-none text-gray-700 placeholder-gray-400" placeholder="SMS..." />
+                    </div>
+                    <button type="submit" onClick={goDashboard} className="w-full h-[40px] bg-blue-500 rounded-lg flex items-center justify-center text-white font-semibold transition-all duration-200 ease-out hover:bg-blue-600 hover:shadow-lg hover:-translate-y-0.5 active:scale-95 active:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-300">Tizimga kirish</button>
+                </div>}
             </div>
+            <><Toaster position="top-right" /></>
         </div>
     )
 }

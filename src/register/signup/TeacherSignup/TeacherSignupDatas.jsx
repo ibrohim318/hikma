@@ -1,4 +1,4 @@
-import { useEffect,  useRef } from "react"
+import { useEffect, useRef } from "react"
 // AOS
 import AOS from "aos"
 import "aos/dist/aos.css"

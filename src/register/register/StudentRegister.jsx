@@ -89,7 +89,6 @@ function StudentSugnup() {
                             <h1 className="text-black font-normal">Kirish</h1>
                         </NavLink>
                     </div>
-
                     <div className="">
                         <Outlet />
                     </div>
