@@ -55,15 +55,14 @@ function StudentLogin() {
         setLoading(true);
 
         try {
-            const res = await API.post("/api/login", {
+            const res = await API.post("/login", {
                 phone: cleanPhone,
                 password: code,
             });
-
             localStorage.setItem("token", res.data);
-
             toast.success("Kirdingiz!");
             navigate("/dashboard");
+            
         } catch (err) {
             const message = err.response?.data?.detail;
             if (message === "User not found") {
@@ -76,7 +75,9 @@ function StudentLogin() {
         } finally {
             setLoading(false);
         }
+
     };
+
 
 
     return (

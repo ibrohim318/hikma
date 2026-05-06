@@ -65,7 +65,7 @@ function TeacherSignup() {
 
         setErrors(newErrors);
         if (Object.keys(newErrors).length > 0) {
-            toast.error("Barcha maydonlarni to'ldiring!");  
+            toast.error("Barcha maydonlarni to'ldiring!");
             return;
         }
 
