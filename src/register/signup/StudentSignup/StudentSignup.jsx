@@ -125,7 +125,7 @@ function StudentSignup() {
 
         try {
             await register(ROLES.STUDENT, payload);
-            const loginRes = await fetch("https://hikma.uz/login", {
+            const loginRes = await fetch("https://hikma.uz/api/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -220,25 +220,20 @@ function StudentSignup() {
                             </div>
                         </div>
 
-                        {/* Phone */}
+                        {/* Phone  & email*/}
                         <div className="w-full mt-5 flex gap-4">
                             <div className="w-1/2 ">
+                                {/* INPUT */}
                                 <h3 className="text-sm">Telefon raqam</h3>
                                 <div className={`w-full h-[34px] bg-gray-100 rounded-lg mt-2 flex items-center border ${errors.phone ? "border-red-500 animate-shake" : "border-transparent"} focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-200`}>
-                                    {/* +998 PREFIX */}
                                     <div className="px-3 text-gray-500 font-medium border-r border-gray-300">+998</div>
-                                    {/* INPUT */}
-                                    <input type="text" value={phone} onChange={(e) => {
-                                        const raw = e.target.value;
-                                        const formatted = formatPhone(raw);
-                                        setPhone(formatted);
-                                        setErrors(prev => ({ ...prev, phone: false }));
-                                    }} placeholder="90-123-45-67" className="flex-1 px-3 bg-transparent focus:outline-none" />
+                                    <input type="text" value={phone} onChange={(e) => { const raw = e.target.value; const formatted = formatPhone(raw); setPhone(formatted); setErrors(prev => ({ ...prev, phone: false })); }} placeholder="90-123-45-67" className="flex-1 px-3 bg-transparent focus:outline-none" />
                                 </div>
                             </div>
+                            {/* email */}
                             <div className="w-1/2 ">
                                 <h3 className="text-sm">Email</h3>
-                                <div className={`w-full h-[34px] bg-gray-100 rounded-lg mt-2 flex items-center border ${errors.phone ? "border-red-500 animate-shake" : "border-transparent"} focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-200`}>
+                                <div className={`w-full h-[34px] bg-gray-100 rounded-lg mt-2 flex items-center border ${errors.email ? "border-red-500 animate-shake" : "border-transparent"} focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-200`}>
                                     <input type="email" placeholder="email@com" value={email} onChange={(e) => setEmail(e.target.value)} className="flex-1 px-3 bg-transparent focus:outline-none" />
                                 </div>
                             </div>

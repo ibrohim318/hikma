@@ -94,7 +94,7 @@ function ParentSignup() {
         try {
             await register(ROLES.PARENT, payload);
 
-            const loginRes = await fetch("https://hikma.uz/login", {
+            const loginRes = await fetch("https://hikma.uz/api/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ phone: cleanPhone, password: cleanPhone }),

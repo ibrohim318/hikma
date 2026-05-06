@@ -85,7 +85,7 @@ function StudentSignupDatas() {
 
         try {
             const res = await axios.post(
-                "https://hikma.uz/signup/", // ✅ slash qo‘shildi
+                "https://hikma.uz/api/signup/", // ✅ slash qo‘shildi
                 payload
             );
 
