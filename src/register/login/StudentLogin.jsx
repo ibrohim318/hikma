@@ -51,7 +51,7 @@ function StudentLogin() {
             return;
         }
 
-        const cleanPhone = "+998" + phone.replace(/\D/g, "");
+        const cleanPhone = "998" + phone.replace(/\D/g, "");
         setLoading(true);
 
         try {
