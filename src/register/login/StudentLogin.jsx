@@ -9,8 +9,9 @@ import axios from "axios";
 
 function StudentLogin() {
     const navigate = useNavigate();
+
     const [sms, setSms] = useState(false);
-    const [step, setStep] = useState("phone"); // "phone" | "code"
+    const [step, setStep] = useState("phone");
     const [phone, setPhone] = useState("");
     const [code, setCode] = useState("");
     const [loading, setLoading] = useState(false);
@@ -18,30 +19,32 @@ function StudentLogin() {
 
     const formatPhone = (value) => {
         let digits = value.replace(/\D/g, "").slice(0, 9);
-        let formatted = digits;
-        if (digits.length > 2) formatted = digits.slice(0, 2) + "-" + digits.slice(2);
-        if (digits.length > 5) formatted = digits.slice(0, 2) + "-" + digits.slice(2, 5) + "-" + digits.slice(5);
-        if (digits.length > 7) formatted = digits.slice(0, 2) + "-" + digits.slice(2, 5) + "-" + digits.slice(5, 7) + "-" + digits.slice(7);
-        return formatted;
+        if (digits.length <= 2) return digits;
+        if (digits.length <= 5) return `${digits.slice(0, 2)}-${digits.slice(2)}`;
+        if (digits.length <= 7) return `${digits.slice(0, 2)}-${digits.slice(2, 5)}-${digits.slice(5)}`;
+        return `${digits.slice(0, 2)}-${digits.slice(2, 5)}-${digits.slice(5, 7)}-${digits.slice(7)}`;
     };
 
     const handleSendCode = () => {
-        if (!phone.trim() || phone.replace(/\D/g, "").length < 9) {
-            toast.error("To'liq telefon raqamni kiriting!");
+        if (phone.replace(/\D/g, "").length < 9) {
+            toast.error("To'liq telefon raqam kiriting!");
             return;
         }
+
         const otp = Math.floor(100000 + Math.random() * 900000).toString();
         setGeneratedOtp(otp);
-        console.log(
-            "SMS kodi: " + otp,
-        );
-        toast.success("SMS yuborildi! (Kodni consoleda ko'ring)");
+
+        console.log("SMS kodi:", otp);
+
+        toast.success("SMS yuborildi!");
         setStep("code");
     };
 
-    // 2. OTP tekshirish va login
     const handleVerifyCode = async () => {
-        if (!code.trim()) { toast.error("Kodni kiriting!"); return; }
+        if (!code) {
+            toast.error("Kod kiriting!");
+            return;
+        }
 
         if (code !== generatedOtp) {
             toast.error("Kod noto'g'ri!");
@@ -52,30 +55,29 @@ function StudentLogin() {
         setLoading(true);
 
         try {
-            const res = await API.post("/login", {
+            const res = await API.post("/api/login", {
                 phone: cleanPhone,
-                password: code
+                password: code,
             });
 
-            const token = await res.text();
+            localStorage.setItem("token", res.data);
 
-            if (!res.ok) {
-                let msg = "Xatolik yuz berdi";
-                try { const j = JSON.parse(token); msg = j.detail || msg; } catch (_) { };
-                throw new Error(msg);
-            }
-
-            const cleanToken = token.replace(/"/g, "");
-            localStorage.setItem("token", cleanToken);
-            toast.success("Tizimga kirdingiz!");
+            toast.success("Kirdingiz!");
             navigate("/dashboard");
-
         } catch (err) {
-            toast.error(err.message || "Xatolik yuz berdi");
+            const message = err.response?.data?.detail;
+            if (message === "User not found") {
+                toast.error("Ro'yxatdan o'tmagansiz!");
+            } else if (message === "Invalid credentials") {
+                toast.error("Kod noto'g'ri!");
+            } else {
+                toast.error(message || "Xatolik!");
+            }
         } finally {
             setLoading(false);
         }
     };
+
 
     return (
         <div className={`w-[85%] ${sms ? "h-[310px]" : "h-[190px]"} border border-gray-300 rounded-xl shadow-md p-6 transition-all duration-300 ease-out`}>

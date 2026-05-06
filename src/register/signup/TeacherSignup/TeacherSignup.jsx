@@ -54,7 +54,6 @@ function TeacherSignup() {
 
     const handleGoDashboard = async () => {
         if (loading) return;
-
         let newErrors = {};
         if (!name.trim()) newErrors.name = true;
         if (!lastName.trim()) newErrors.lastName = true;
@@ -66,7 +65,7 @@ function TeacherSignup() {
 
         setErrors(newErrors);
         if (Object.keys(newErrors).length > 0) {
-            toast.error("Barcha maydonlarni to'ldiring!"); // ← error, success emas
+            toast.error("Barcha maydonlarni to'ldiring!");  
             return;
         }
 
