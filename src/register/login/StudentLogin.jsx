@@ -5,6 +5,7 @@ import { FcGoogle } from "react-icons/fc";
 import { Toaster, toast } from "react-hot-toast";
 
 import API from "../../api/axios";
+import axios from "axios";
 
 function StudentLogin() {
     const navigate = useNavigate();
@@ -24,7 +25,6 @@ function StudentLogin() {
         return formatted;
     };
 
-    // 1. OTP generatsiya qilish (hozircha mock)
     const handleSendCode = () => {
         if (!phone.trim() || phone.replace(/\D/g, "").length < 9) {
             toast.error("To'liq telefon raqamni kiriting!");
@@ -32,15 +32,14 @@ function StudentLogin() {
         }
         const otp = Math.floor(100000 + Math.random() * 900000).toString();
         setGeneratedOtp(otp);
-        console.log(
-            "%c📱 SMS OTP kodi: " + otp,
-            "color:#1D9E75;font-size:18px;font-weight:bold;background:#E1F5EE;padding:6px 12px;border-radius:4px"
-        );
+
+        // Vaqtinchalik: SMS o'rniga consolega chiqarish
+        console.log("📱 SMS kodi:", otp);
+
         toast.success("SMS yuborildi! (Kodni consoleda ko'ring)");
         setStep("code");
     };
 
-    // 2. OTP tekshirish va login
     const handleVerifyCode = async () => {
         if (!code.trim()) { toast.error("Kodni kiriting!"); return; }
 
@@ -53,27 +52,28 @@ function StudentLogin() {
         setLoading(true);
 
         try {
-            const res = await fetch(`${API}/login`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ phone: cleanPhone, password: code })
+            const res = await axios.post(`${API}/login`, {
+                phone: cleanPhone,
+                password: code
             });
 
-            const token = await res.text();
+            // axios da response.data ishlatiladi, res.text() emas
+            const token = typeof res.data === "string"
+                ? res.data.replace(/"/g, "")
+                : res.data?.token || res.data?.access_token || "";
 
-            if (!res.ok) {
-                let msg = "Xatolik yuz berdi";
-                try { const j = JSON.parse(token); msg = j.detail || msg; } catch (_) { };
-                throw new Error(msg);
-            }
+            if (!token) throw new Error("Token olinmadi");
 
-            const cleanToken = token.replace(/"/g, "");
-            localStorage.setItem("token", cleanToken);
+            localStorage.setItem("token", token);
             toast.success("Tizimga kirdingiz!");
             navigate("/dashboard");
 
         } catch (err) {
-            toast.error(err.message || "Xatolik yuz berdi");
+            const msg = err.response?.data?.detail
+                || err.response?.data?.message
+                || err.message
+                || "Xatolik yuz berdi";
+            toast.error(msg);
         } finally {
             setLoading(false);
         }
