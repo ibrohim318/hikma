@@ -15,7 +15,6 @@ const useRegister = () => {
             setLoading(true);
             setError(null);
             const res = await registerUser(role, data);
-
             const token = res.data?.token
                 || res.data?.access_token
                 || res.data?.access

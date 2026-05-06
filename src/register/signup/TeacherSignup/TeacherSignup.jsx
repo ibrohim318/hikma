@@ -8,6 +8,10 @@ import { ROLES } from "../../../constants/roles";
 import { Toaster, toast } from "react-hot-toast";
 
 function TeacherSignup() {
+    useEffect(() => {
+        document.title = "O'qituvchi - Ro'yxatdan o'tish";
+    }, []);
+
     const navigate = useNavigate();
     const { register, loading } = useRegister();
 
@@ -38,6 +42,7 @@ function TeacherSignup() {
         }
     };
 
+    // format phone
     const formatPhone = (value) => {
         let digits = value.replace(/\D/g, "").slice(0, 9);
         let formatted = digits;
@@ -57,6 +62,7 @@ function TeacherSignup() {
         if (!gender) newErrors.gender = true;
         if (!teacher) newErrors.teacher = true;
         if (!subject) newErrors.subject = true;
+        if (!email.trim()) newErrors.email = true;
 
         setErrors(newErrors);
         if (Object.keys(newErrors).length > 0) {
@@ -71,7 +77,8 @@ function TeacherSignup() {
             last_name: lastName,
             father_name: "",
             phone: cleanPhone,
-            password: cleanPhone
+            password: cleanPhone,
+            email: email,
         };
 
         try {
@@ -123,8 +130,8 @@ function TeacherSignup() {
                     </div>
                 </div>
 
-                {/* Phone */}
-                <div className="w-full mt-5">
+                {/* Phone & email*/}
+                <div className="w-full mt-5 flex gap-4 ">
                     <div className="w-1/2 ">
                         <h3 className="text-sm">Telefon raqam</h3>
                         <div className={`w-full h-[34px] bg-gray-100 rounded-lg mt-2 flex items-center border ${errors.phone ? "border-red-500 animate-shake" : "border-transparent"} focus-within:border-pink-500 focus-within:ring-2 focus-within:ring-pink-200`}>
@@ -134,15 +141,9 @@ function TeacherSignup() {
                     </div>
 
                     <div>
-                        <h3 className="text-sm">Email</h3>
+                        <h3 className="text-sm w-1/2">Email</h3>
                         <div className={`w-full h-[34px] bg-gray-100 rounded-lg mt-2 flex items-center border ${errors.email ? "border-red-500 animate-shake" : "border-transparent"} focus-within:border-pink-500 focus-within:ring-2 focus-within:ring-pink-200`}>
-                            <input
-                                type="email"
-                                value={email}
-                                onChange={(e) => { setEmail(e.target.value); setErrors(prev => ({ ...prev, email: false })); }}
-                                placeholder="email@gmail.com"
-                                className="flex-1 px-3 bg-transparent focus:outline-none"
-                            />
+                            <input type="email" value={email} onChange={(e) => { setEmail(e.target.value); setErrors(prev => ({ ...prev, email: false })); }} placeholder="email@gmail.com" className="flex-1 px-3 bg-transparent focus:outline-none" />
                         </div>
                     </div>
                 </div>

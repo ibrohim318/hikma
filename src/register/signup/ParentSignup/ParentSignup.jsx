@@ -1,13 +1,6 @@
-import { useEffect, useState, useRef } from "react"
-// AOS
-import AOS from "aos"
-import "aos/dist/aos.css"
-
-
-// icons
-import { FaArrowRight } from "react-icons/fa6"
-
-import axios from "axios";
+import { useEffect, useState, useRef } from "react";
+import AOS from "aos";
+import "aos/dist/aos.css";
 import { useNavigate } from "react-router-dom";
 import useRegister from "../../../hooks/useRegister";
 import { ROLES } from "../../../constants/roles";
@@ -15,83 +8,96 @@ import { Toaster, toast } from "react-hot-toast";
 import { setCookie } from "../../../utils/cookie";
 
 function ParentSignup() {
-    const { register, loading, error } = useRegister();
-    // ! parent signup data form
-    let [signupData, setSignupData] = useState(true);
-    // AOS
     useEffect(() => {
-        AOS.init({
-            duration: 500,
-            once: true
-        })
+        document.title = "Ota-ona - Ro'yxatdan o'tish";
     }, []);
 
-    // user infos
+    const { register, loading } = useRegister();
+    const navigate = useNavigate();
+
+    const [signupData, setSignupData] = useState(true);
+    const [parentid, setParentid] = useState(false);
+
+    useEffect(() => {
+        AOS.init({ duration: 500, once: true });
+    }, []);
+
     const [name, setName] = useState("");
     const [lastName, setLastName] = useState("");
     const [phone, setPhone] = useState("");
     const [email, setEmail] = useState("");
-    const [parent, setparent] = useState(null);
-
-    // empty inputs
+    const [parent, setParent] = useState(null);
+    const [id, setId] = useState("");
     const [errors, setErrors] = useState({});
 
-    // male&female focus
     const maleRef = useRef(null);
     const femaleRef = useRef(null);
 
-    // pass to ID page
+    const clearError = (field) => setErrors(prev => ({ ...prev, [field]: false }));
+
     const handleKeyDown = (e) => {
         if (e.key === "Tab") {
             e.preventDefault();
-            if (!parent) {
-                setparent("Ota");
-                maleRef.current.focus();
-            } else if (parent === "Ota") {
-                setparent("Ona");
-                femaleRef.current.focus();
-            } else {
-                femaleRef.current.blur();
-            }
+            if (!parent) { setParent("Ota"); maleRef.current.focus(); }
+            else if (parent === "Ota") { setParent("Ona"); femaleRef.current.focus(); }
+            else { femaleRef.current.blur(); }
         }
     };
 
-    // SUBMIT
-    const navigate = useNavigate();
+    const formatPhone = (value) => {
+        let digits = value.replace(/\D/g, "").slice(0, 9);
+        let formatted = digits;
+        if (digits.length > 2) formatted = digits.slice(0, 2) + "-" + digits.slice(2);
+        if (digits.length > 5) formatted = digits.slice(0, 2) + "-" + digits.slice(2, 5) + "-" + digits.slice(5);
+        if (digits.length > 7) formatted = digits.slice(0, 2) + "-" + digits.slice(2, 5) + "-" + digits.slice(5, 7) + "-" + digits.slice(7);
+        return formatted;
+    };
 
-    const handleGoDashboard = async () => {
+    const handleIdChange = (e) => {
+        let value = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, "");
+        let formatted = value.slice(0, 3);
+        if (value.length >= 4) formatted += "-" + value.slice(3, 7);
+        if (value.length >= 8) formatted += "-" + value.slice(7, 11);
+        setId(formatted);
+        clearError("id");
+    };
+
+    const handleSubmit = async () => {
         if (loading) return;
-        let newErrors = {};
+
+        const newErrors = {};
         if (!name.trim()) newErrors.name = true;
         if (!lastName.trim()) newErrors.lastName = true;
         if (!phone.trim()) newErrors.phone = true;
         if (!parent) newErrors.parent = true;
+        if (!id.trim()) newErrors.id = true;
+        if (!email.trim()) newErrors.email = true;
+
 
         setErrors(newErrors);
+
         if (Object.keys(newErrors).length > 0) {
             toast.error("Barcha maydonlarni to'ldiring!");
             return;
         }
 
         const cleanPhone = "998" + phone.replace(/\D/g, "");
-
         const payload = {
             first_name: name,
             last_name: lastName,
             father_name: "",
             phone: cleanPhone,
             relation: parent,
-            password: cleanPhone   // ← telefon = parol
+            password: cleanPhone,
         };
 
         try {
             await register(ROLES.PARENT, payload);
 
-            // ✅ fetch bilan, to'g'ri URL
             const loginRes = await fetch("http://64.23.232.25:8000/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ phone: cleanPhone, password: cleanPhone })
+                body: JSON.stringify({ phone: cleanPhone, password: cleanPhone }),
             });
 
             const loginData = await loginRes.json();
@@ -107,7 +113,7 @@ function ParentSignup() {
             navigate("/parentDashboard");
 
         } catch (err) {
-              console.log(err);
+            console.log(err);
             if (err?.response?.status === 409) {
                 toast.error("Bu telefon raqam allaqachon mavjud");
             } else {
@@ -116,121 +122,143 @@ function ParentSignup() {
         }
     };
 
-    // phone
-    const formatPhone = (value) => {
-        // faqat raqamlarni qoldir
-        let digits = value.replace(/\D/g, "").slice(0, 9);
-        // format: 90-123-45-67
-        let formatted = digits;
-        if (digits.length > 2) formatted = digits.slice(0, 2) + "-" + digits.slice(2);
-        if (digits.length > 5) formatted = digits.slice(0, 2) + "-" + digits.slice(2, 5) + "-" + digits.slice(5);
-        if (digits.length > 7) formatted = digits.slice(0, 2) + "-" + digits.slice(2, 5) + "-" + digits.slice(5, 7) + "-" + digits.slice(7);
-        return formatted;
-    };
-
-    // id
-    const [id, setId] = useState("");
-    const handleChange = (e) => {
-        let value = e.target.value.toUpperCase();
-        value = value.replace(/[^A-Z0-9]/g, "");
-        let formatted = "";
-        if (value.length > 0) {
-            formatted += value.slice(0, 3);
-        }
-        if (value.length >= 4) {
-            formatted += "-" + value.slice(3, 7);
-        }
-        if (value.length >= 8) {
-            formatted += "-" + value.slice(7, 11);
-        }
-        setId(formatted);
-    };
-
-
-
-    // ! parent ID
-    let [parentid, setparentid] = useState(false);
+    const inputBox = (hasError) =>
+        `w-full h-[34px] bg-gray-100 rounded-lg mt-2 flex items-center px-3 border
+    ${hasError ? "border-red-400 animate-shake" : "border-gray-200"}
+    focus-within:border-green-500 focus-within:ring-2 focus-within:ring-green-200 transition-all`;
 
     return (
-        <div className="w-[78%] h-[640px]  ">
-            {signupData && <div>
-                <div className=" ">
-                    <div data-aos="fade-up">
-                        {/* Name & Lastname */}
-                        <div className="w-full flex gap-4">
-                            {/* Name */}
-                            <div className="w-1/2">
-                                <h3 className="text-sm">Ism</h3>
-                                <div className={`w-full h-[34px] bg-gray-100 rounded-lg mt-2 flex items-center px-3 border ${errors.name ? "border-red-500 animate-shake" : "border-transparent"} focus-within:border-green-500 focus-within:ring-2 focus-within:ring-green-200 transition-all`}>
-                                    <input type="text" value={name} onChange={(e) => { setName(e.target.value); setErrors(prev => ({ ...prev, name: false })); }} placeholder="Ism" className="w-full bg-transparent focus:outline-none" />
-                                </div>
-                            </div>
-
-                            {/* LastName */}
-                            <div className="w-1/2">
-                                <h3 className="text-sm">Familiya</h3>
-                                <div className={`w-full h-[34px] bg-gray-100 rounded-lg mt-2 flex items-center px-3 border ${errors.lastName ? "border-red-500 animate-shake" : "border-transparent"}focus-within:border-green-500 focus-within:ring-2 focus-within:ring-green-200 transition-all`}>
-                                    <input type="text" value={lastName} onChange={(e) => { setLastName(e.target.value); setErrors(prev => ({ ...prev, lastName: false })); }} placeholder="Familiya" className="w-full bg-transparent focus:outline-none" />
-                                </div>
+        <div className="w-[78%] h-[640px]">
+            {signupData && (
+                <div data-aos="fade-up">
+                    {/* Ism & Familiya */}
+                    <div className="w-full flex gap-4">
+                        <div className="w-1/2">
+                            <h3 className="text-sm">Ism</h3>
+                            <div className={inputBox(errors.name)}>
+                                <input
+                                    type="text"
+                                    value={name}
+                                    onChange={(e) => { setName(e.target.value); clearError("name"); }}
+                                    placeholder="Ism"
+                                    className="w-full bg-transparent focus:outline-none"
+                                />
                             </div>
                         </div>
 
-                        {/* Phone */}
-                        <div className="w-full mt-5 flex gap-4">
-                            <div className="w-1/2 ">
-                                <h3 className="text-sm">Telefon raqam</h3>
-                                <div className={`w-full h-[34px] bg-gray-100 rounded-lg mt-2 flex items-center border ${errors.phone ? "border-red-500 animate-shake" : "border-transparent"} focus-within:border-green-500 focus-within:ring-2 focus-within:ring-green-200`}>
-                                    {/* +998 */}
-                                    <div className="px-3 text-gray-500 font-medium border-r border-gray-300">+998</div>
-                                    {/* INPUT */}
-                                    <input type="text" value={phone} onChange={(e) => {
-                                        const raw = e.target.value;
-                                        const formatted = formatPhone(raw);
-                                        setPhone(formatted);
-                                        setErrors(prev => ({ ...prev, phone: false }));
-                                    }} placeholder="90-123-45-67" className="flex-1 px-3 bg-transparent focus:outline-none" />
-                                </div>
-                            </div>
-                            <div className="w-1/2 ">
-                                <h3 className="text-sm">Email</h3>
-                                <div className={`w-full h-[34px] bg-gray-100 rounded-lg mt-2 flex items-center border ${errors.phone ? "border-red-500 animate-shake" : "border-transparent"} focus-within:border-green-500 focus-within:ring-2 focus-within:ring-green-200`}>
-                                    <input type="email" placeholder="email@com" value={email} onChange={(e) => setEmail(e.target.value)} className="flex-1 px-3 bg-transparent focus:outline-none" />
-                                </div>
+                        <div className="w-1/2">
+                            <h3 className="text-sm">Familiya</h3>
+                            <div className={inputBox(errors.lastName)}>
+                                <input
+                                    type="text"
+                                    value={lastName}
+                                    onChange={(e) => { setLastName(e.target.value); clearError("lastName"); }}
+                                    placeholder="Familiya"
+                                    className="w-full bg-transparent focus:outline-none"
+                                />
                             </div>
                         </div>
-
-                        {/* parent */}
-                        <div className="flex flex-col gap-2 mt-4">
-                            <label className="font-medium">Siz kimsiz?</label>
-                            <div className={`flex gap-4 ${errors.parent ? "animate-shake" : ""}`} onKeyDown={handleKeyDown}>
-                                <button ref={maleRef} type="button" onClick={() => { setparent("Ota"); setErrors(prev => ({ ...prev, parent: false })); }} className={`px-[87px] py-1.5 rounded-xl border transition ${parent === "Ota" ? "bg-green-100 border-green-500" : "bg-gray-100"}`}>👦 Ota</button>
-                                <button ref={femaleRef} type="button" onClick={() => { setparent("Ona"); setErrors(prev => ({ ...prev, parent: false })); }} className={`px-[87px] py-1.5 rounded-xl border transition ${parent === "Ona" ? "bg-green-100 border-green-500" : "bg-gray-100"}`}>👩 Ona</button>
-                            </div>
-                        </div>
-
-                        {/* children ID */}
-                        <div className="w-full mt-4">
-                            <h3 className="text-sm">Farzand IDR ID</h3>
-                            <div className={`w-full h-[34px] bg-gray-100 rounded-lg mt-2 flex items-center px-3 border ${errors.id ? "border-red-500 animate-shake" : "border-transparent"} focus-within:border-green-500 focus-within:ring-2 focus-within:ring-green-200`}>
-                                <input type="text" value={id} onChange={handleChange} placeholder="IDR-2024-XXXX" className="w-full bg-transparent focus:outline-none" />
-                            </div>
-                        </div>
-
                     </div>
 
-                    <button onClick={handleGoDashboard} className="w-full h-[45px] rounded-xl mt-6  flex items-center gap-3 justify-center  text-white font-semibold  bg-gradient-to-r from-[#00bb7d] to-[#009889] active:scale-95 transition">
+                    {/* Telefon & Email */}
+                    <div className="w-full mt-5 flex gap-4">
+                        <div className="w-1/2">
+                            <h3 className="text-sm">Telefon raqam</h3>
+                            <div className={`w-full h-[34px] bg-gray-100 rounded-lg mt-2 flex items-center border ${errors.phone ? "border-red-500 animate-shake" : "border-transparent"} focus-within:border-green-500 focus-within:ring-2 focus-within:ring-green-200 transition-all`}>
+                                <div className="px-3 text-gray-500 font-medium border-r border-gray-300">+998</div>
+                                <input
+                                    type="text"
+                                    value={phone}
+                                    onChange={(e) => { setPhone(formatPhone(e.target.value)); clearError("phone"); }}
+                                    placeholder="90-123-45-67"
+                                    className="flex-1 px-3 bg-transparent focus:outline-none"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="w-1/2">
+                            <h3 className="text-sm">Email</h3>
+                            {/* ✅ email majburiy emas — error yo'q */}
+                            <div className="w-full h-[34px] bg-gray-100 rounded-lg mt-2 flex items-center border border-transparent focus-within:border-green-500 focus-within:ring-2 focus-within:ring-green-200 transition-all">
+                                <input
+                                    type="email"
+                                    placeholder="email@com"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    className="flex-1 px-3 bg-transparent focus:outline-none"
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Siz kimsiz */}
+                    <div className="flex flex-col gap-2 mt-4">
+                        <label className={`font-medium ${errors.parent ? "text-red-500" : ""}`}>
+                            Siz kimsiz? {errors.parent && <span className="text-xs font-normal">— tanlang</span>}
+                        </label>
+                        <div className={`flex gap-4 ${errors.parent ? "animate-shake" : ""}`} onKeyDown={handleKeyDown}>
+                            <button
+                                ref={maleRef}
+                                type="button"
+                                onClick={() => { setParent("Ota"); clearError("parent"); }}
+                                className={`px-[87px] py-1.5 rounded-xl border transition
+                ${parent === "Ota"
+                                        ? "bg-green-100 border-green-500"
+                                        : errors.parent
+                                            ? "bg-red-50 border-red-400"   // ✅ xato holati
+                                            : "bg-gray-100 border-gray-200"
+                                    }`}
+                            >
+                                👦 Ota
+                            </button>
+                            <button
+                                ref={femaleRef}
+                                type="button"
+                                onClick={() => { setParent("Ona"); clearError("parent"); }}
+                                className={`px-[87px] py-1.5 rounded-xl border transition
+                ${parent === "Ona"
+                                        ? "bg-green-100 border-green-500"
+                                        : errors.parent
+                                            ? "bg-red-50 border-red-400"   // ✅ xato holati
+                                            : "bg-gray-100 border-gray-200"
+                                    }`}
+                            >
+                                👩 Ona
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Farzand IDR ID */}
+                    <div className="w-full mt-4">
+                        <h3 className="text-sm">Farzand IDR ID</h3>
+                        <div className={inputBox(errors.id)}>
+                            <input
+                                type="text"
+                                value={id}
+                                onChange={handleIdChange}
+                                placeholder="IDR-2024-XXXX"
+                                className="w-full bg-transparent focus:outline-none"
+                            />
+                        </div>
+                    </div>
+
+                    {/* Button */}
+                    <button
+                        onClick={handleSubmit}
+                        className="w-full h-[45px] rounded-xl mt-6 flex items-center gap-3 justify-center text-white font-semibold bg-gradient-to-r from-[#00bb7d] to-[#009889] active:scale-95 transition"
+                    >
                         {loading ? "Yuborilmoqda..." : "Dashboardga o'tish"}
                     </button>
                 </div>
-            </div>}
+            )}
 
-            {parentid && <div>
-                parentID
-            </div>}
-        </div >
-    )
+            {parentid && (
+                <div>parentID</div>
+            )}
+
+            <Toaster position="top-right" />
+        </div>
+    );
 }
 
-export default ParentSignup
-
-// setID(e.target.value); setErrors(prev => ({ ...prev, id: false })); 
+export default ParentSignup;

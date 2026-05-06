@@ -4,7 +4,7 @@ const API = axios.create({
     baseURL: "http://64.23.232.25:8000",
 });
 
-// 🔐 REQUEST INTERCEPTOR
+// 🔐 request interceptor
 API.interceptors.request.use((config) => {
     const token = localStorage.getItem("token");
 
@@ -15,20 +15,16 @@ API.interceptors.request.use((config) => {
     return config;
 });
 
-// 🚨 RESPONSE INTERCEPTOR
+// 🚨 response interceptor
 API.interceptors.response.use(
     (response) => response,
     (error) => {
         if (error.response?.status === 401) {
             console.log("Session tugadi");
-
-            // 🔥 tokenni o‘chiramiz
             localStorage.removeItem("token");
-
-            // 🔥 login page ga qaytaramiz
             window.location.href = "/";
         }
-        
+
         return Promise.reject(error);
     }
 );
