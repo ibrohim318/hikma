@@ -84,7 +84,7 @@ function TeacherSignup() {
         try {
             await register(ROLES.TEACHER, payload);
 
-            const loginRes = await fetch("http://64.23.232.25:8000/login", {
+            const loginRes = await fetch("https://hikma.uz/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ phone: cleanPhone, password: cleanPhone })

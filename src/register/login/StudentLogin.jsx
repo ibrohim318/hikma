@@ -4,7 +4,7 @@ import { MdPhoneInTalk } from "react-icons/md";
 import { FcGoogle } from "react-icons/fc";
 import { Toaster, toast } from "react-hot-toast";
 
-const API = "http://64.23.232.25:8000";
+import API from "../../api/axios";
 
 function StudentLogin() {
     const navigate = useNavigate();

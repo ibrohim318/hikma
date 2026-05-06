@@ -14,7 +14,7 @@ import { ROLES } from "../../../constants/roles";
 import { Toaster, toast } from "react-hot-toast";
 import { setCookie } from "../../../utils/cookie";
 
- 
+
 
 function StudentSignup() {
     useEffect(() => {
@@ -125,7 +125,7 @@ function StudentSignup() {
 
         try {
             await register(ROLES.STUDENT, payload);
-            const loginRes = await fetch("http://64.23.232.25:8000/login", {
+            const loginRes = await fetch("https://hikma.uz/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -197,124 +197,124 @@ function StudentSignup() {
             </div>
 
             {/* signup form */}
-   
-                {signupData && <div>
-                    <div className=" ">
-                        <div data-aos="fade-up">
-                            {/* Name & Lastname */}
-                            <div className="w-full flex gap-4">
-                                {/* Name */}
-                                <div className="w-1/2">
-                                    <h3 className="text-sm">Ism</h3>
-                                    <div className={`w-full h-[34px] bg-gray-100 rounded-lg mt-2 flex items-center px-3 border ${errors.name ? "border-red-500 animate-shake" : "border-transparent"} focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-200 transition-all`}>
-                                        <input type="text" value={name} onChange={(e) => { setName(e.target.value); setErrors(prev => ({ ...prev, name: false })); }} placeholder="Ism" className="w-full bg-transparent focus:outline-none" />
-                                    </div>
-                                </div>
 
-                                {/* LastName */}
-                                <div className="w-1/2">
-                                    <h3 className="text-sm">Familiya</h3>
-                                    <div className={`w-full h-[34px] bg-gray-100 rounded-lg mt-2 flex items-center px-3 border ${errors.lastName ? "border-red-500 animate-shake" : "border-transparent"}focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-200 transition-all`}>
-                                        <input type="text" value={lastName} onChange={(e) => { setLastName(e.target.value); setErrors(prev => ({ ...prev, lastName: false })); }} placeholder="Familiya" className="w-full bg-transparent focus:outline-none" />
-                                    </div>
+            {signupData && <div>
+                <div className=" ">
+                    <div data-aos="fade-up">
+                        {/* Name & Lastname */}
+                        <div className="w-full flex gap-4">
+                            {/* Name */}
+                            <div className="w-1/2">
+                                <h3 className="text-sm">Ism</h3>
+                                <div className={`w-full h-[34px] bg-gray-100 rounded-lg mt-2 flex items-center px-3 border ${errors.name ? "border-red-500 animate-shake" : "border-transparent"} focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-200 transition-all`}>
+                                    <input type="text" value={name} onChange={(e) => { setName(e.target.value); setErrors(prev => ({ ...prev, name: false })); }} placeholder="Ism" className="w-full bg-transparent focus:outline-none" />
                                 </div>
                             </div>
 
-                            {/* Phone */}
-                            <div className="w-full mt-5 flex gap-4">
-                                <div className="w-1/2 ">
-                                    <h3 className="text-sm">Telefon raqam</h3>
-                                    <div className={`w-full h-[34px] bg-gray-100 rounded-lg mt-2 flex items-center border ${errors.phone ? "border-red-500 animate-shake" : "border-transparent"} focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-200`}>
-                                        {/* +998 PREFIX */}
-                                        <div className="px-3 text-gray-500 font-medium border-r border-gray-300">+998</div>
-                                        {/* INPUT */}
-                                        <input type="text" value={phone} onChange={(e) => {
-                                            const raw = e.target.value;
-                                            const formatted = formatPhone(raw);
-                                            setPhone(formatted);
-                                            setErrors(prev => ({ ...prev, phone: false }));
-                                        }} placeholder="90-123-45-67" className="flex-1 px-3 bg-transparent focus:outline-none" />
-                                    </div>
-                                </div>
-                                <div className="w-1/2 ">
-                                    <h3 className="text-sm">Email</h3>
-                                    <div className={`w-full h-[34px] bg-gray-100 rounded-lg mt-2 flex items-center border ${errors.phone ? "border-red-500 animate-shake" : "border-transparent"} focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-200`}>
-                                        <input type="email" placeholder="email@com" value={email} onChange={(e) => setEmail(e.target.value)} className="flex-1 px-3 bg-transparent focus:outline-none" />
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            {/* Gender */}
-                            <div className="flex flex-col gap-2 mt-4">
-                                <label className="font-medium   ">Jins *</label>
-                                <div className={`flex gap-4 ${errors.gender ? "animate-shake" : ""}`} onKeyDown={handleKeyDown}>
-                                    <button ref={maleRef} type="button" onClick={() => { setGender("erkak"); setErrors(prev => ({ ...prev, gender: false })); }} className={`px-[84px] py-1.5 rounded-xl border transition ${gender === "erkak" ? "bg-blue-100 border-blue-500" : "bg-gray-100"}`}>👦 Erkak</button>
-                                    <button ref={femaleRef} type="button" onClick={() => { setGender("ayol"); setErrors(prev => ({ ...prev, gender: false })); }} className={`px-[84px] py-1.5 rounded-xl border transition ${gender === "ayol" ? "bg-blue-100 border-blue-500" : "bg-gray-100"}`}>👩 Ayol</button>
-                                </div>
-                            </div>
-
-                            {/* Birthday */}
-                            <div className="w-full mt-5">
-                                <h3 className="text-sm">Tug'ilgan sana</h3>
-                                <div className={`w-full h-[39px] bg-gray-100 rounded-lg mt-2 flex items-center px-3 border  ${errors.day ? "border-red-500 animate-shake" : "border-transparent"} focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-200`}>
-                                    <input type="date" value={day} onChange={(e) => { setDay(e.target.value); setErrors(prev => ({ ...prev, day: false })); }} className="w-full bg-transparent focus:outline-none" />
-                                </div>
-                            </div>
-
-                            {/* Region & Area */}
-                            <div className="w-full flex gap-4 mt-6">
-                                {/* Region */}
-                                <div className="w-1/2">
-                                    <h3 className="text-sm">Viloyat</h3>
-                                    <div className={`w-full h-[34px] bg-gray-100 rounded-lg mt-2 flex items-center px-3 border ${errors.region ? "border-red-500 animate-shake" : "border-transparent"} focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-200`}>
-                                        <select value={region} onChange={(e) => {
-                                            setRegion(e.target.value);
-                                            setErrors(prev => ({ ...prev, region: false }));
-                                        }} className="w-full h-full bg-transparent focus:outline-none">
-                                            <option hidden value="">Tanlang</option>
-                                            <option value="Toshkent shahri">Toshkent shahri</option>
-                                            <option value="Toshkent viloyati">Toshkent viloyati</option>
-                                            <option value="Andijon viloyati">Andijon viloyati</option>
-                                            <option value="Buxoro viloyati">Buxoro viloyati</option>
-                                            <option value="Farg‘ona viloyati">Farg‘ona viloyati</option>
-                                            <option value="Jizzax viloyati">Jizzax viloyati</option>
-                                            <option value="Xorazm viloyati">Xorazm viloyati</option>
-                                            <option value="Namangan viloyati">Namangan viloyati</option>
-                                            <option value="Navoiy viloyati">Navoiy viloyati</option>
-                                            <option value="Qashqadaryo viloyati">Qashqadaryo viloyati</option>
-                                            <option value="Samarqand viloyati">Samarqand viloyati</option>
-                                            <option value="Sirdaryo viloyati">Sirdaryo viloyati</option>
-                                            <option value="Surxondaryo viloyati">Surxondaryo viloyati</option>
-                                            <option value="Qoraqalpog‘iston Respublikasi">Qoraqalpog‘iston Respublikasi</option>
-
-
-                                        </select>
-                                    </div>
-                                </div>
-
-                                {/* Area */}
-                                <div className="w-1/2">
-                                    <h3 className="text-sm">Tuman</h3>
-                                    <div className={`w-full h-[34px] bg-gray-100 rounded-lg mt-2 flex items-center px-3 border ${errors.area ? "border-red-500 animate-shake" : "border-transparent"} focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-200`}>
-                                        <input type="text" value={area} onChange={(e) => { setArea(e.target.value); setErrors(prev => ({ ...prev, area: false })); }} placeholder="Tuman" className="w-full bg-transparent focus:outline-none" />
-                                    </div>
+                            {/* LastName */}
+                            <div className="w-1/2">
+                                <h3 className="text-sm">Familiya</h3>
+                                <div className={`w-full h-[34px] bg-gray-100 rounded-lg mt-2 flex items-center px-3 border ${errors.lastName ? "border-red-500 animate-shake" : "border-transparent"}focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-200 transition-all`}>
+                                    <input type="text" value={lastName} onChange={(e) => { setLastName(e.target.value); setErrors(prev => ({ ...prev, lastName: false })); }} placeholder="Familiya" className="w-full bg-transparent focus:outline-none" />
                                 </div>
                             </div>
                         </div>
 
-                        {/* Button */}
-                        <button onClick={handleSubmit} className=" w-full h-[45px] rounded-xl mt-6  flex items-center gap-3 justify-center  text-white font-semibold  bg-gradient-to-r from-[#1fa2d6] to-[#2563eb] active:scale-95 transition">
-                            {loading ? <Spinner className="size-8" /> :
-                                <div className="flex items-center gap-3">
-                                    <span>Davom etish</span>
-                                    <FaArrowRight />
+                        {/* Phone */}
+                        <div className="w-full mt-5 flex gap-4">
+                            <div className="w-1/2 ">
+                                <h3 className="text-sm">Telefon raqam</h3>
+                                <div className={`w-full h-[34px] bg-gray-100 rounded-lg mt-2 flex items-center border ${errors.phone ? "border-red-500 animate-shake" : "border-transparent"} focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-200`}>
+                                    {/* +998 PREFIX */}
+                                    <div className="px-3 text-gray-500 font-medium border-r border-gray-300">+998</div>
+                                    {/* INPUT */}
+                                    <input type="text" value={phone} onChange={(e) => {
+                                        const raw = e.target.value;
+                                        const formatted = formatPhone(raw);
+                                        setPhone(formatted);
+                                        setErrors(prev => ({ ...prev, phone: false }));
+                                    }} placeholder="90-123-45-67" className="flex-1 px-3 bg-transparent focus:outline-none" />
                                 </div>
-                            }
-                        </button>
+                            </div>
+                            <div className="w-1/2 ">
+                                <h3 className="text-sm">Email</h3>
+                                <div className={`w-full h-[34px] bg-gray-100 rounded-lg mt-2 flex items-center border ${errors.phone ? "border-red-500 animate-shake" : "border-transparent"} focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-200`}>
+                                    <input type="email" placeholder="email@com" value={email} onChange={(e) => setEmail(e.target.value)} className="flex-1 px-3 bg-transparent focus:outline-none" />
+                                </div>
+                            </div>
+                        </div>
+
+
+                        {/* Gender */}
+                        <div className="flex flex-col gap-2 mt-4">
+                            <label className="font-medium   ">Jins *</label>
+                            <div className={`flex gap-4 ${errors.gender ? "animate-shake" : ""}`} onKeyDown={handleKeyDown}>
+                                <button ref={maleRef} type="button" onClick={() => { setGender("erkak"); setErrors(prev => ({ ...prev, gender: false })); }} className={`px-[84px] py-1.5 rounded-xl border transition ${gender === "erkak" ? "bg-blue-100 border-blue-500" : "bg-gray-100"}`}>👦 Erkak</button>
+                                <button ref={femaleRef} type="button" onClick={() => { setGender("ayol"); setErrors(prev => ({ ...prev, gender: false })); }} className={`px-[84px] py-1.5 rounded-xl border transition ${gender === "ayol" ? "bg-blue-100 border-blue-500" : "bg-gray-100"}`}>👩 Ayol</button>
+                            </div>
+                        </div>
+
+                        {/* Birthday */}
+                        <div className="w-full mt-5">
+                            <h3 className="text-sm">Tug'ilgan sana</h3>
+                            <div className={`w-full h-[39px] bg-gray-100 rounded-lg mt-2 flex items-center px-3 border  ${errors.day ? "border-red-500 animate-shake" : "border-transparent"} focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-200`}>
+                                <input type="date" value={day} onChange={(e) => { setDay(e.target.value); setErrors(prev => ({ ...prev, day: false })); }} className="w-full bg-transparent focus:outline-none" />
+                            </div>
+                        </div>
+
+                        {/* Region & Area */}
+                        <div className="w-full flex gap-4 mt-6">
+                            {/* Region */}
+                            <div className="w-1/2">
+                                <h3 className="text-sm">Viloyat</h3>
+                                <div className={`w-full h-[34px] bg-gray-100 rounded-lg mt-2 flex items-center px-3 border ${errors.region ? "border-red-500 animate-shake" : "border-transparent"} focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-200`}>
+                                    <select value={region} onChange={(e) => {
+                                        setRegion(e.target.value);
+                                        setErrors(prev => ({ ...prev, region: false }));
+                                    }} className="w-full h-full bg-transparent focus:outline-none">
+                                        <option hidden value="">Tanlang</option>
+                                        <option value="Toshkent shahri">Toshkent shahri</option>
+                                        <option value="Toshkent viloyati">Toshkent viloyati</option>
+                                        <option value="Andijon viloyati">Andijon viloyati</option>
+                                        <option value="Buxoro viloyati">Buxoro viloyati</option>
+                                        <option value="Farg‘ona viloyati">Farg‘ona viloyati</option>
+                                        <option value="Jizzax viloyati">Jizzax viloyati</option>
+                                        <option value="Xorazm viloyati">Xorazm viloyati</option>
+                                        <option value="Namangan viloyati">Namangan viloyati</option>
+                                        <option value="Navoiy viloyati">Navoiy viloyati</option>
+                                        <option value="Qashqadaryo viloyati">Qashqadaryo viloyati</option>
+                                        <option value="Samarqand viloyati">Samarqand viloyati</option>
+                                        <option value="Sirdaryo viloyati">Sirdaryo viloyati</option>
+                                        <option value="Surxondaryo viloyati">Surxondaryo viloyati</option>
+                                        <option value="Qoraqalpog‘iston Respublikasi">Qoraqalpog‘iston Respublikasi</option>
+
+
+                                    </select>
+                                </div>
+                            </div>
+
+                            {/* Area */}
+                            <div className="w-1/2">
+                                <h3 className="text-sm">Tuman</h3>
+                                <div className={`w-full h-[34px] bg-gray-100 rounded-lg mt-2 flex items-center px-3 border ${errors.area ? "border-red-500 animate-shake" : "border-transparent"} focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-200`}>
+                                    <input type="text" value={area} onChange={(e) => { setArea(e.target.value); setErrors(prev => ({ ...prev, area: false })); }} placeholder="Tuman" className="w-full bg-transparent focus:outline-none" />
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>}
-       
+
+                    {/* Button */}
+                    <button onClick={handleSubmit} className=" w-full h-[45px] rounded-xl mt-6  flex items-center gap-3 justify-center  text-white font-semibold  bg-gradient-to-r from-[#1fa2d6] to-[#2563eb] active:scale-95 transition">
+                        {loading ? <Spinner className="size-8" /> :
+                            <div className="flex items-center gap-3">
+                                <span>Davom etish</span>
+                                <FaArrowRight />
+                            </div>
+                        }
+                    </button>
+                </div>
+            </div>}
+
 
             {/* id part */}
             {studentID && <div className=" ">

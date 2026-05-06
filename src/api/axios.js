@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-    baseURL: "http://64.23.232.25:8000",
+    baseURL: "https://hikma.uz",
 });
 
 // 🔐 request interceptor
