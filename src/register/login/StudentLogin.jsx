@@ -68,7 +68,7 @@ function StudentLogin() {
 
             toast.success("Kirdingiz!");
 
-            navigate("/dashboard");
+            navigate("/studentDashboard");
 
         } catch (err) {
 
