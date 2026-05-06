@@ -32,14 +32,14 @@ function StudentLogin() {
         }
         const otp = Math.floor(100000 + Math.random() * 900000).toString();
         setGeneratedOtp(otp);
-
-        // Vaqtinchalik: SMS o'rniga consolega chiqarish
-        console.log("📱 SMS kodi:", otp);
-
+        console.log(
+            "SMS kodi: " + otp,
+        );
         toast.success("SMS yuborildi! (Kodni consoleda ko'ring)");
         setStep("code");
     };
 
+    // 2. OTP tekshirish va login
     const handleVerifyCode = async () => {
         if (!code.trim()) { toast.error("Kodni kiriting!"); return; }
 
@@ -52,28 +52,26 @@ function StudentLogin() {
         setLoading(true);
 
         try {
-            const res = await axios.post(`${API}/login`, {
+            const res = await API.post("/login", {
                 phone: cleanPhone,
                 password: code
             });
 
-            // axios da response.data ishlatiladi, res.text() emas
-            const token = typeof res.data === "string"
-                ? res.data.replace(/"/g, "")
-                : res.data?.token || res.data?.access_token || "";
+            const token = await res.text();
 
-            if (!token) throw new Error("Token olinmadi");
+            if (!res.ok) {
+                let msg = "Xatolik yuz berdi";
+                try { const j = JSON.parse(token); msg = j.detail || msg; } catch (_) { };
+                throw new Error(msg);
+            }
 
-            localStorage.setItem("token", token);
+            const cleanToken = token.replace(/"/g, "");
+            localStorage.setItem("token", cleanToken);
             toast.success("Tizimga kirdingiz!");
             navigate("/dashboard");
 
         } catch (err) {
-            const msg = err.response?.data?.detail
-                || err.response?.data?.message
-                || err.message
-                || "Xatolik yuz berdi";
-            toast.error(msg);
+            toast.error(err.message || "Xatolik yuz berdi");
         } finally {
             setLoading(false);
         }
