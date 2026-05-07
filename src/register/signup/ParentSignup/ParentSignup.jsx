@@ -84,7 +84,7 @@ function ParentSignup() {
         const cleanPhone = "998" + phone.replace(/\D/g, "");
         const payload = {
             first_name: name,
-            last_name: lastName,
+            last_name: lastName,   
             father_name: "",
             phone: cleanPhone,
             relation: parent,
