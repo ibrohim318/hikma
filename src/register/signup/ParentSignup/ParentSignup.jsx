@@ -89,6 +89,7 @@ function ParentSignup() {
             phone: cleanPhone,
             relation: parent,
             password: cleanPhone,
+            email: email,
         };
 
         try {
