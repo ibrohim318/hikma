@@ -73,7 +73,6 @@ function ParentSignup() {
         if (!id.trim()) newErrors.id = true;
         if (!email.trim()) newErrors.email = true;
 
-
         setErrors(newErrors);
 
         if (Object.keys(newErrors).length > 0) {

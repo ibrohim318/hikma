@@ -2,6 +2,7 @@ import { useEffect, useState, useRef, createContext } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../context/AuthContext";
 
 // Icons
 import { FaArrowRight, FaCheck } from "react-icons/fa6";
@@ -17,6 +18,8 @@ import { setCookie } from "../../../utils/cookie";
 
 
 function StudentSignup() {
+    const { setUserName } = useAuth();
+
     useEffect(() => {
         document.title = "Izlanuvchi - Ro'yxatdan o'tish";
     }, []);
@@ -146,6 +149,7 @@ function StudentSignup() {
             }
 
             toast.success("Muvaffaqiyatli ro'yxatdan o'tdingiz!");
+            setUserName(name);
             setSignupData(false);
             setStudentID(true);
             setNext(false);

@@ -5,18 +5,29 @@ import { FcGoogle } from "react-icons/fc"
 import { Toaster, toast } from "react-hot-toast"
 
 import API from "../../api/axios"
+import { useAuth } from "../../context/AuthContext" // ✅
 
 function StudentLogin() {
     const navigate = useNavigate()
+    const { setUserName } = useAuth() // ✅
 
-    const handleGoogleLogin = useGoogleLogin({
+    const google = useGoogleLogin({
         onSuccess: async ({ access_token }) => {
             const toastId = toast.loading("Kirish...")
             try {
+                // ✅ Google dan ismni olamiz
+                const googleUser = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
+                    headers: { Authorization: `Bearer ${access_token}` }
+                }).then(res => res.json())
+
                 const res = await API.post("/auth/google", { access_token })
                 localStorage.setItem("token", res.data.access_token)
+
+                // ✅ Ismni contextga saqlaymiz
+                setUserName(googleUser.given_name)
+
                 toast.success("Xush kelibsiz!", { id: toastId })
-                navigate("/dashboard")
+                navigate("/studentDashboard")
             } catch (err) {
                 const message = err.response?.data?.detail
                 if (message === "User not found") {
@@ -38,7 +49,6 @@ function StudentLogin() {
 
             <div className="mt-[25px]">
                 <div className="w-full flex gap-4">
-                    {/* SMS — hozircha o'chirilgan */}
                     <button
                         disabled
                         className="w-1/2 h-[48px] border rounded-xl flex items-center justify-center gap-4 opacity-40 cursor-not-allowed bg-white"
@@ -47,9 +57,8 @@ function StudentLogin() {
                         <h1>SMS bilan</h1>
                     </button>
 
-                    {/* Google — aktiv */}
                     <button
-                        onClick={handleGoogleLogin}
+                        onClick={google}
                         className="w-1/2 h-[48px] border shadow-sm hover:shadow-md rounded-xl flex items-center justify-center gap-4 bg-blue-50 border-blue-400 active:scale-95 transition-all"
                     >
                         <FcGoogle className="w-5 h-5" />
