@@ -4,14 +4,14 @@ const API = axios.create({
     baseURL: "https://hikma.uz/api",
 });
 
-// 🔐 request interceptor
+//  request interceptor
 API.interceptors.request.use((config) => {
     const token = localStorage.getItem("token");
     if (token) config.headers.Authorization = `Bearer ${token}`;
     return config;
 });
 
-// 🚨 response interceptor
+//  response interceptor
 API.interceptors.response.use(
     (response) => response,
     (error) => {

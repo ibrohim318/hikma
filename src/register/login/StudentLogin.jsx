@@ -15,17 +15,13 @@ function StudentLogin() {
         onSuccess: async ({ access_token }) => {
             const toastId = toast.loading("Kirish...")
             try {
-                // ✅ Google dan ismni olamiz
                 const googleUser = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
                     headers: { Authorization: `Bearer ${access_token}` }
                 }).then(res => res.json())
 
                 const res = await API.post("/auth/google", { access_token })
                 localStorage.setItem("token", res.data.access_token)
-
-                // ✅ Ismni contextga saqlaymiz
                 setUserName(googleUser.given_name)
-
                 toast.success("Xush kelibsiz!", { id: toastId })
                 navigate("/studentDashboard")
             } catch (err) {

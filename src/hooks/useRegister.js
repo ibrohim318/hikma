@@ -21,8 +21,7 @@ const useRegister = () => {
         } finally {
             setLoading(false);
         }
-    };
- 
+    };  
     return { register, loading, error };
 };
 

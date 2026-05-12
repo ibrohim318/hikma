@@ -82,18 +82,20 @@ function ParentSignup() {
 
         const cleanPhone = "998" + phone.replace(/\D/g, "");
         const payload = {
+            email: email,
             first_name: name,
-            last_name: lastName,   
+            last_name: lastName,
             father_name: "",
             phone: cleanPhone,
-            relation: parent,
-            password: cleanPhone,
-            email: email,
+            gender: parent,
+            birth_date: "",
+            region: "",
+            district: "",
+            relation: "",
         };
 
         try {
             await register(ROLES.PARENT, payload);
-
             const loginRes = await fetch("https://hikma.uz/api/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
