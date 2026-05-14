@@ -23,7 +23,7 @@ function StudentLogin() {
                 localStorage.setItem("token", res.data.access_token)
                 setUserName(googleUser.given_name)
                 toast.success("Xush kelibsiz!", { id: toastId })
-                navigate("/studentDashboard")
+                navigate("/studentPage")
             } catch (err) {
                 const message = err.response?.data?.detail
                 if (message === "User not found") {

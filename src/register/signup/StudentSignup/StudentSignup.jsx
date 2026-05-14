@@ -13,7 +13,7 @@ import { ROLES } from "../../../constants/roles";
 import { Toaster, toast } from "react-hot-toast";
 import { setCookie } from "../../../utils/cookie";
 
-// ✅ Barcha viloyatlar va ularning tumanlari
+
 const districts = {
     "Toshkent shahri": ["Yunusobod", "Chilonzor", "Mirzo Ulug'bek", "Olmazor", "Uchtepa", "Yakkasaroy", "Sergeli", "Shayxontohur", "Bektemir", "Mirobod", "Hamza"],
     "Toshkent viloyati": ["Angren", "Bekabad", "Bo'stonliq", "Buka", "Chinoz", "Qibray", "Ohangaron", "Oqqo'rg'on", "Parkent", "Piskent", "O'rtachirchiq", "Yuqorichirchiq", "Zangiota"],
@@ -22,7 +22,7 @@ const districts = {
     "Farg'ona viloyati": ["Farg'ona t.", "Marg'ilon", "Qo'qon", "Oltiariq", "Bag'dod", "Beshariq", "Buvayda", "Dang'ara", "Furqat", "Hamza", "O'zbekiston", "Quva", "Rishton", "So'x", "Toshloq", "Uchko'prik", "Yozyovon"],
     "Jizzax viloyati": ["Jizzax t.", "Arnasoy", "Baxmal", "Do'stlik", "Forish", "G'allaorol", "Mirzacho'l", "Paxtakor", "Sharof Rashidov", "Yangiobod", "Zarbdor", "Zafar"],
     "Xorazm viloyati": ["Urganch t.", "Bog'ot", "Gurlan", "Xiva", "Xazorasp", "Qo'shko'pir", "Shovot", "Tuproqqal'a", "Yangiariq", "Yangibozor"],
-    "Namangan viloyati": ["Namangan t.", "Chortoq", "Chust", "Kosonsoy", "Mingbuloq", "Namangan t.", "Norin", "Pop", "To'raqo'rg'on", "Uychi", "Yangiqo'rg'on"],
+    "Namangan viloyati": ["Namangan t.", "Chortoq", "Chust", "Kosonsoy", "Mingbuloq", "Norin", "Pop", "To'raqo'rg'on", "Uychi", "Yangiqo'rg'on"],
     "Navoiy viloyati": ["Navoiy t.", "Karmana", "Konimex", "Navbahor", "Nurota", "Qiziltepa", "Tomdi", "Uchquduq", "Xatirchi"],
     "Qashqadaryo viloyati": ["Qarshi t.", "Chiroqchi", "Dehqonobod", "G'uzor", "Kasbi", "Kitob", "Koson", "Mirishkor", "Muborak", "Nishon", "Qamashi", "Shahrisabz", "Yakkabog'"],
     "Samarqand viloyati": ["Samarqand t.", "Bulung'ur", "Ishtixon", "Jomboy", "Kattaqo'rg'on", "Narpay", "Nurobod", "Oqdaryo", "Pastdarg'om", "Payariq", "Qo'shrabot", "Toyloq", "Urgut"],
@@ -31,7 +31,7 @@ const districts = {
     "Qoraqalpog'iston Respublikasi": ["Nukus t.", "Amudaryo", "Beruniy", "Chimboy", "Ellikkala", "Kegeyli", "Mo'ynoq", "Nukus", "Qanliko'l", "Qorao'zak", "Shumanay", "Taxtako'pir", "To'rtko'l", "Xo'jayli"],
 };
 
-// ✅ Reducer
+//  Reducer
 const initialRegionState = {
     region: "",
     district: "",
@@ -54,7 +54,7 @@ function regionReducer(state, action) {
 }
 
 function StudentSignup() {
-    const { setUserName } = useAuth();
+    const { setUserName, setLastname, setUserPhone } = useAuth();
 
     useEffect(() => {
         document.title = "Izlanuvchi - Ro'yxatdan o'tish";
@@ -78,7 +78,7 @@ function StudentSignup() {
     const [gender, setGender] = useState(null);
     const [day, setDay] = useState("");
 
-    // ✅ useReducer — region va district
+    //  useReducer — region & district
     const [regionState, dispatch] = useReducer(regionReducer, initialRegionState);
 
     const [errors, setErrors] = useState({});
@@ -117,8 +117,8 @@ function StudentSignup() {
         if (!phone.trim()) newErrors.phone = true;
         if (!gender) newErrors.gender = true;
         if (!day) newErrors.day = true;
-        if (!regionState.region) newErrors.region = true;       // ✅
-        if (!regionState.district) newErrors.district = true;   // ✅
+        if (!regionState.region) newErrors.region = true;
+        if (!regionState.district) newErrors.district = true;
         if (!email.trim()) newErrors.email = true;
 
         setErrors(newErrors);
@@ -129,15 +129,15 @@ function StudentSignup() {
 
         const cleanPhone = "998" + phone.replace(/\D/g, "");
         const payload = {
+            email: email,
             first_name: name,
             last_name: lastName,
-            phone: cleanPhone,
             father_name: fatherName,
-            birth_date: day,
+            phone: cleanPhone,
             gender: gender === "erkak" ? "male" : "female",
-            region: regionState.region,       // ✅
-            district: regionState.district,   // ✅
-            email: email,
+            birth_date: day,
+            region: regionState.region,
+            district: regionState.district,
             password: cleanPhone,
         };
 
@@ -161,7 +161,9 @@ function StudentSignup() {
             }
 
             toast.success("Muvaffaqiyatli ro'yxatdan o'tdingiz!");
+            setLastname(lastName)
             setUserName(name);
+            setUserPhone(phone)
             setSignupData(false);
             setStudentID(true);
             setNext(false);
@@ -175,7 +177,7 @@ function StudentSignup() {
         }
     };
 
-    const goDashboard = () => navigate("/studentDashboard");
+    const goDashboard = () => navigate("/studentPage");
 
     const [studentID, setStudentID] = useState(false);
     const [idr, setIdr] = useState("IDR-2026-2098");
@@ -186,6 +188,7 @@ function StudentSignup() {
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
     };
+
 
     return (
         <div className="w-[78%] h-[640px]">

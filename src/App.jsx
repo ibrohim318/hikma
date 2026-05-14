@@ -12,10 +12,18 @@ import ParentLogin from "./register/login/ParentLogin"
 import TeacherRegister from "./register/register/TeacherRegister"
 import TeacherSignup from "./register/signup/TeacherSignup/TeacherSignup"
 import TeacherLogin from "./register/login/TeacherLogin"
-import { ProtectedRoute } from "./ProtectedRoute"  // ← PublicRoute olib tashlandi
+import { ProtectedRoute } from "./ProtectedRoute"
 
 // ! studentPage
-import StudentDashboard from "./pages/studentPage/studentDashboard"
+import StudentPage from "./pages/studentPage/studentPage"
+import StudentDashboard from "./pages/studentPage/StudentDashboard"
+import StudentThought from "./pages/studentPage/studentThought"
+import StudentSchool from "./pages/studentPage/StudentSchool"
+import StudentCourse from "./pages/studentPage/StudentCourse"
+import StudentAgenda from "./pages/studentPage/StudentAgenda"
+import StudentMercy from "./pages/studentPage/StudentMercy"
+import StudentConnection from "./pages/studentPage/StudentConnection"
+
 
 // ! parentPage
 import ParentDashboard from "./pages/parentPage/parentDashboard"
@@ -26,11 +34,11 @@ import TeacherDashboard from "./pages/teacherPage/teacherDashbaord"
 // App.jsx da router DAN OLDIN qo'shing
 const HomeRedirect = () => {
   const token = localStorage.getItem("token");
-  if (token) return <Navigate to="/studentDashboard" replace />;
+  if (token) return <Navigate to="/studentPage" replace />;
   return <Student />;
 };
 
-// ✅ App DAN TASHQARIDA
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -73,8 +81,22 @@ const router = createBrowserRouter([
   },
   // ? student pages 
   {
-    path: "/studentDashboard",
-    element: <ProtectedRoute><StudentDashboard /></ProtectedRoute>
+    path: "/studentPage",
+    element: <ProtectedRoute />,
+    children: [
+      {
+        element: <StudentPage />,
+        children: [
+          { index: true, element: <StudentDashboard /> },
+          { path: "studentThought", element: <StudentThought /> },
+          { path: "studentSchool", element: <StudentSchool /> },
+          { path: "studentCourse", element: <StudentCourse /> },
+          { path: "studentAgenda", element: <StudentAgenda /> },
+          { path: "studentMercy", element: <StudentMercy /> },
+          { path: "studentConnection", element: <StudentConnection /> },
+        ]
+      }
+    ]
   },
   // ?parent pages
   {
