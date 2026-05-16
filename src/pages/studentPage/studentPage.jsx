@@ -49,18 +49,12 @@ function StudentPage() {
 
                 {/* Nav links */}
                 <nav className="flex flex-col gap-2 px-4 py-4">
-                    <NavLink to="/studentPage" end className={({ isActive }) => `group flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-semibold transition-all duration-200 ${isActive ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-200" : "text-gray-600 hover:bg-white hover:shadow-md hover:text-gray-900"}`}> <LuLayoutDashboard className="text-[20px]" /><span>Dashboard</span></NavLink>
-
+                    <NavLink to="/studentPage" end className={({ isActive }) => `group flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-semibold transition-all duration-200 ${isActive ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-200" : "text-gray-600 hover:bg-white hover:shadow-md hover:text-gray-900"}`}> <LuLayoutDashboard className="text-[20px]" /><span>Asosiy panel</span></NavLink>
                     <NavLink to="/studentPage/studentThought" className={({ isActive }) => `group flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-semibold transition-all duration-200 ${isActive ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-200" : "text-gray-600 hover:bg-white hover:shadow-md hover:text-gray-900"}`}> <LuBrain className="text-[20px]" /> <span>Fikrlash</span></NavLink>
-
                     <NavLink to="/studentPage/studentSchool" className={({ isActive }) => `group flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-semibold transition-all duration-200 ${isActive ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-200" : "text-gray-600 hover:bg-white hover:shadow-md hover:text-gray-900"}`}  > <IoBookOutline className="text-[20px]" /> <span>Maktab</span> </NavLink>
-
                     <NavLink to="/studentPage/studentCourse" className={({ isActive }) => `group flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-semibold transition-all duration-200 ${isActive ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-200" : "text-gray-600 hover:bg-white hover:shadow-md hover:text-gray-900"}`} > <HiOutlineAcademicCap className="text-[20px]" /> <span>Kurs</span> </NavLink>
-
                     <NavLink to="/studentPage/studentAgenda" className={({ isActive }) => `group flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-semibold transition-all duration-200 ${isActive ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-200" : "text-gray-600 hover:bg-white hover:shadow-md hover:text-gray-900"}`}  >  <MdCalendarMonth className="text-[20px]" /> <span>Kun tartibi</span> </NavLink>
-
                     <NavLink to="/studentPage/studentMercy" className={({ isActive }) => `group flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-semibold transition-all duration-200 ${isActive ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-200" : "text-gray-600 hover:bg-white hover:shadow-md hover:text-gray-900"}`}  > <FaRegStar className="text-[20px]" />  <span>Qadriyatlar</span>  </NavLink>
-
                     <NavLink to="/studentPage/studentConnection" className={({ isActive }) => `group flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-semibold transition-all duration-200 ${isActive ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-200" : "text-gray-600 hover:bg-white hover:shadow-md hover:text-gray-900"}`} > <BsFillPersonPlusFill className="text-[20px]" /> <span>Ulanishlar</span>  </NavLink>
                 </nav>
 

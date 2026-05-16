@@ -35,8 +35,8 @@ function Teacher() {
                 <h3 className="text-[#8b3bfe] font-semibold">Har bir o'quvchi — alohida potensial</h3>
             </center>
             <div className="relative">
-                <div className="grid grid-cols-12 gap-5 ">
-                    <div className="col-span-4 w-full h-[400px] rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer" data-aos="fade-up">
+                <div className="lg:grid grid-cols-12 gap-5 ">
+                    <div className="lg:col-span-4  lg:h-[400px] lg:w-full  sm:w-[90%]   sm:mb-8  rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer" data-aos="fade-up">
                         <div className="w-full h-[170px] relative rounded-t-2xl overflow-hidden bg-gradient-to-br from-[#801ef9] to-[#4028b1] p-6 text-white">
                             <div className="absolute -left-3 -bottom-3 w-[70px] h-[70px] rounded-full bg-[#7300c2]"></div>
                             <div className="absolute -right-4 -top-4 w-[90px] h-[90px] rounded-full bg-[#8525d7]"></div>
@@ -77,7 +77,7 @@ function Teacher() {
                         </div>
                     </div>
 
-                    <div className="col-span-4 w-full h-[400px] rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer" data-aos="fade-up">
+                    <div className="col-span-4 w-full h-[400px] lg:w-full h-[340px] sm:w-[80%] sm:mb-8 sm:m-auto rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer" data-aos="fade-up">
                         <div className="w-full h-[170px] relative rounded-t-2xl overflow-hidden bg-gradient-to-br from-[#00b2cb] to-[#007e5d] p-6 ">
                             <div className="absolute -left-3 -bottom-3 w-[70px] h-[70px] rounded-full bg-[#00867a]"></div>
                             <div className="absolute -right-4 -top-4 w-[90px] h-[90px] rounded-full bg-[#1a9d8e]"></div>
@@ -118,7 +118,7 @@ function Teacher() {
                         </div>
                     </div>
 
-                    <div className="col-span-4 w-full h-[400px] rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer" data-aos="fade-up">
+                    <div className="col-span-4 w-full h-[400px] lg:w-full h-[340px] sm:w-[80%] sm:mb-8 sm:m-auto rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer" data-aos="fade-up">
                         <div className="w-full h-[170px] relative rounded-t-2xl overflow-hidden bg-gradient-to-br from-[#fd8e00] to-[#e80004] p-6 text-white">
                             <div className="absolute -left-4 -bottom-4 w-[70px] h-[70px] rounded-full bg-[#f4531a]"></div>
                             <div className="absolute -right-4 -top-4 w-[90px] h-[90px] rounded-full bg-[#dc4100]"></div>

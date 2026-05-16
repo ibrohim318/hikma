@@ -10,90 +10,102 @@ function StudentSugnup() {
 
 
     return (
-        <div className="relative grid grid-cols-12 h-screen overflow-hidden">
-            <div className="col-span-6 h-full hidden lg:block">
-                <div className="w-full h-full relative overflow-hidden">
+        <div className="min-h-screen grid grid-cols-1 lg:grid-cols-12 overflow-hidden">
 
-                    {/* BG IMAGE */}
-                    <img
-                        src="/signup.jpg"
-                        alt=""
-                        className="absolute inset-0 w-full h-full object-cover"
-                    />
+            {/* LEFT SIDE */}
+            <div className="hidden lg:col-span-6 lg:flex relative">
 
-                    {/* MAIN GRADIENT (eng muhim qism) */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-[#3b82f6]/80 via-[#6366f1]/70 to-[#8b5cf6]/80" />
+                <img
+                    src="/signup.jpg"
+                    alt=""
+                    className="absolute inset-0 w-full h-full object-cover"
+                />
 
-                    {/* LIGHT PATTERN */}
-                    <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:40px_40px]" />
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/80 via-indigo-500/70 to-purple-500/80" />
 
-                    {/* CONTENT */}
-                    <div className="relative z-10 flex flex-col justify-between h-full p-12 text-white">
+                <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:40px_40px]" />
 
-                        {/* TOP */}
-                        <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center backdrop-blur-sm">
-                                ✦
-                            </div>
+                <div className="relative z-10 flex flex-col justify-between p-12 text-white w-full">
 
-                            <div>
-                                <h1 className="text-xl font-semibold">Hikma</h1>
-                                <p className="text-xs opacity-80 tracking-wide">
-                                    TA'LIM PLATFORMASI
-                                </p>
-                            </div>
+                    {/* logo */}
+                    <div className="flex items-center gap-3">
+                        <div className="w-11 h-11 rounded-2xl bg-white/20 backdrop-blur-md flex justify-center items-center">
+                            ✦
                         </div>
 
-                        {/* BOTTOM */}
-                        <div className="max-w-md mb-[130px] ">
-                            <div className="w-10 h-[3px] bg-white/40 mb-5"></div>
+                        <div>
+                            <h1 className="font-bold text-xl">
+                                Hikma
+                            </h1>
 
-                            <h2 className="text-4xl font-bold leading-tight">
-                                Bilim —
-                                <br />
-                                eng buyuk boylik
-                            </h2>
-
-                            <p className="mt-4 text-sm opacity-80 leading-relaxed">
-                                Har bir o‘rganilgan dars, har bir topilgan javob
-                                kelajagingni poydevori.
+                            <p className="text-xs opacity-80 tracking-widest">
+                                TA'LIM PLATFORMASI
                             </p>
                         </div>
+                    </div>
+
+                    {/* text */}
+                    <div className="max-w-md mb-28">
+
+                        <div className="w-10 h-1 rounded-full bg-white/40 mb-5" />
+
+                        <h2 className="text-5xl font-bold leading-tight">
+                            Bilim —
+                            <br />
+                            eng buyuk boylik
+                        </h2>
+
+                        <p className="mt-5 text-sm leading-7 opacity-80">
+                            Har bir o‘rganilgan dars va topilgan javob
+                            kelajaging poydevoridir.
+                        </p>
 
                     </div>
+
                 </div>
+
             </div>
 
-            {/* Signup & login */}
-            <div className={`col-span-6 flex items-center justify-center `}>
-                <div className="mt-4 w-[80%]">
-                    {/* back icon & logo */}
-                    <div className="cursor-pointer ">
-                        <NavLink to={"/"} className="flex items-center gap-1.5 text-[#707082] hover:text-black/80   trasnsition-all duration-200">
-                            <IoArrowBackSharp size={17} className="" />
-                            <h3 className="">Orqaga</h3>
-                        </NavLink>
+
+            {/* RIGHT SIDE */}
+            <div className="col-span-12 lg:col-span-6 flex justify-center">
+                <div className=" w-full max-w-lg px-5 sm:px-8 py-6 lg:py-10">
+
+                    {/* top */}
+                    <div className="flex justify-between items-center">
+                        <NavLink to="/" className="flex items-center gap-2 text-gray-500 hover:text-black transition"> <IoArrowBackSharp size={18} /> <span>Orqaga</span></NavLink>
+                        <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center">
+                                <LuBrain size={22} className="text-white" />
+                            </div>
+                            <div>
+                                <h1 className="font-bold">Hikma</h1>
+                                <p className="text-xs text-gray-500">Ta'lim Platformasi</p>
+                            </div>
+                        </div>
                     </div>
 
-                    <div className="my-5">
-                        <h1 className="text-2xl font-bold mt-2.5">Ro'yxatdan o'tish</h1>
-                        <p className="text-sm text-gray-400 ">Yangi hisob yarating va o'rganishni boshlang</p>
+
+                    {/* title */}
+                    <div className="mt-10">
+                        <h1 className=" text-3xl sm:text-4xl font-bold">Ro'yxatdan o'tish</h1>
+                        <p className="mt-2 text-gray-400 text-sm">Yangi hisob yarating va o‘rganishni boshlang</p>
                     </div>
 
-                    {/* signup & login */}
-                    <div className="mt-15 my-5 w-[55%] h-[44px] bg-[#ececf0] rounded-xl flex items-center justify-between ">
-                        <NavLink to="/studentregister" end className={({ isActive }) => `w-[50%] h-[36px] mx-1 flex items-center justify-center rounded-xl ${isActive ? "bg-white transition-all duration-200" : "bg-transparent transition-all duration-200"}`}>
-                            <h1 className="text-black font-normal">Ro'yxatdan o'tish</h1>
-                        </NavLink>
-                        <NavLink to={"/studentLogin"} end className={({ isActive }) => `w-[50%] h-[36px] mx-1 flex items-center justify-center rounded-xl ${isActive ? "bg-white transition-all duration-200" : "bg-transparent transition-all duration-200"}`}>
-                            <h1 className="text-black font-normal">Kirish</h1>
-                        </NavLink>
+                    {/* tabs */}
+                    <div className=" mt-8 h-[45px] p-1 w-[80%] bg-gray-100 rounded-2xl flex">
+                        <NavLink to="/studentregister" end className={({ isActive }) => `w-1/2 rounded-xl flex items-center justify-center transition-all ${isActive ? "bg-white shadow-md" : ""}`}>Ro'yxatdan o'tish</NavLink>
+                        <NavLink to="/studentLogin" end className={({ isActive }) => `w-1/2 rounded-xl flex items-center justify-center transition-all ${isActive ? "bg-white shadow-md" : ""}`}>Kirish</NavLink>
                     </div>
-                    <div className="">
+
+                    <div className="mt-7">
                         <Outlet />
                     </div>
+
                 </div>
+
             </div>
+
         </div>
     )
 }
