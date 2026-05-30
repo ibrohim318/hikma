@@ -18,12 +18,20 @@ import { ProtectedRoute } from "./ProtectedRoute"
 import StudentPage from "./pages/studentPage/studentPage"
 import StudentDashboard from "./pages/studentPage/StudentDashboard"
 import StudentThought from "./pages/studentPage/studentThought"
-import StudentSchool from "./pages/studentPage/StudentSchool"
-import StudentCourse from "./pages/studentPage/StudentCourse"
-import StudentAgenda from "./pages/studentPage/StudentAgenda"
-import StudentMercy from "./pages/studentPage/StudentMercy"
-import StudentConnection from "./pages/studentPage/StudentConnection"
+import StudentThinking from "./pages/studentPage/StudentThinking"
 
+// ? Student thought tools
+import LogicalThinking from "./pages/studentPage/thoughtParts/LogicalThinking"
+import CreativeThinking from "./pages/studentPage/thoughtParts/CreativeThinking"
+import ReasonThinking from "./pages/studentPage/thoughtParts/ReasonThinking"
+import AskQuestion from "./pages/studentPage/thoughtParts/AskQuestion"
+import Conclusion from "./pages/studentPage/thoughtParts/Conclusion"
+
+// ? studentPage Thinking tools
+import StudentFiveWhy from "./pages/studentPage/Thinking Tools/StudentFiveWhy"
+import StudentPDSA from "./pages/studentPage/Thinking Tools/StudentPDSA"
+import StudentSWOT from "./pages/studentPage/Thinking Tools/StudentSWOT"
+import StudentPareto from "./pages/studentPage/Thinking Tools/StudentPareto"
 
 // ! parentPage
 import ParentDashboard from "./pages/parentPage/parentDashboard"
@@ -88,12 +96,26 @@ const router = createBrowserRouter([
         element: <StudentPage />,
         children: [
           { index: true, element: <StudentDashboard /> },
-          { path: "studentThought", element: <StudentThought /> },
-          { path: "studentSchool", element: <StudentSchool /> },
-          { path: "studentCourse", element: <StudentCourse /> },
-          { path: "studentAgenda", element: <StudentAgenda /> },
-          { path: "studentMercy", element: <StudentMercy /> },
-          { path: "studentConnection", element: <StudentConnection /> },
+          {
+            path: "studentThought", element: <StudentThought />,
+            children: [
+              { index: true, element: <StudentSWOT /> },
+              { path: "studentFiveWhy", element: <StudentFiveWhy /> },
+              { path: "studentPareto", element: <StudentPareto /> },
+              { path: "studentPDSA", element: <StudentPDSA /> },
+            ]
+          },
+          {
+            path: "StudentThinking", element: <StudentThinking />,
+            children: [
+              { index: true, element: <LogicalThinking /> },
+              { path: "creativeThinking", element: <CreativeThinking /> },
+              { path: "reasonThinking", element: <ReasonThinking /> },
+              { path: "askQuestion", element: <AskQuestion /> },
+              { path: "conclusion", element: <Conclusion /> }
+            ]
+          },
+
         ]
       }
     ]

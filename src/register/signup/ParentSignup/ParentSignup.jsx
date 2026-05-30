@@ -83,15 +83,16 @@ function ParentSignup() {
         const cleanPhone = "998" + phone.replace(/\D/g, "");
         const payload = {
             email: email,
+            password: cleanPhone,                                    
             first_name: name,
             last_name: lastName,
             father_name: "",
             phone: cleanPhone,
-            gender: parent,
-            birth_date: "",
-            region: "",
-            district: "",
-            relation: "",
+            gender: parent === "Ota" ? "male" : "female",           
+            birth_date: "2000-01-01",
+            region: "unknown",
+            district: "unknown",
+            relation: parent === "Ota" ? "father" : "mother",       
         };
 
         try {
