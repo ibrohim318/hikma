@@ -16,9 +16,10 @@ import { ProtectedRoute } from "./ProtectedRoute"
 
 // ! studentPage
 import StudentPage from "./pages/studentPage/studentPage"
-import StudentDashboard from "./pages/studentPage/StudentDashboard"
-import StudentThought from "./pages/studentPage/studentThought"
+import StudentDashboard from "./pages/studentPage/studentDashboard"
+import StudentThought from "./pages/studentPage/StudentThought"
 import StudentThinking from "./pages/studentPage/StudentThinking"
+import StudentPersonalGrowth from "./pages/studentPage/StudentPersonalGrowth"
 
 // ? Student thought tools
 import LogicalThinking from "./pages/studentPage/thoughtParts/LogicalThinking"
@@ -32,6 +33,15 @@ import StudentFiveWhy from "./pages/studentPage/Thinking Tools/StudentFiveWhy"
 import StudentPDSA from "./pages/studentPage/Thinking Tools/StudentPDSA"
 import StudentSWOT from "./pages/studentPage/Thinking Tools/StudentSWOT"
 import StudentPareto from "./pages/studentPage/Thinking Tools/StudentPareto"
+
+// ? Student Personal Growth
+import SelfAwareness from "./pages/studentPage/PersonalGrowth/SelfAwareness"
+import Skills from "./pages/studentPage/PersonalGrowth/Skills"
+import Discipline from "./pages/studentPage/PersonalGrowth/Discipline"
+import Goals from "./pages/studentPage/PersonalGrowth/Goals"
+import CareerGuidance from "./pages/studentPage/PersonalGrowth/CareerGuidance"
+import ParentCommunication from "./pages/studentPage/PersonalGrowth/ParentCommunication"
+import SelfAssessment from "./pages/studentPage/PersonalGrowth/SelfAssessment"
 
 // ! parentPage
 import ParentDashboard from "./pages/parentPage/parentDashboard"
@@ -115,7 +125,19 @@ const router = createBrowserRouter([
               { path: "conclusion", element: <Conclusion /> }
             ]
           },
-
+          {
+            path: "StudentPersonalGrowth",
+            element: <StudentPersonalGrowth />,
+            children: [
+              { index: true, element: <SelfAwareness /> },
+              { path: "skills", element: <Skills /> },
+              { path: "discipline", element: <Discipline /> },
+              { path: "goals", element: <Goals /> },
+              { path: "careerGuidance", element: <CareerGuidance /> },
+              { path: "parentCommunication", element: <ParentCommunication /> },
+              { path: "selfAssessment", element: <SelfAssessment /> },
+            ],
+          }
         ]
       }
     ]

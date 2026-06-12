@@ -17,13 +17,14 @@ import { FaRegBell } from "react-icons/fa";
 import { MdOutlineWatchLater } from "react-icons/md";
 import { FaArrowTrendUp } from "react-icons/fa6";
 import { RiFocus2Line } from "react-icons/ri";
+import { MdOutlineTrendingUp } from "react-icons/md";
 
 
 // react & rrd
 import { useReducer, useEffect } from "react";
-import { Outlet, NavLink, useLocation } from "react-router-dom";
+import { Outlet, NavLink, useLocation, data } from "react-router-dom";
 
-// useReducer
+// useReducerx
 const initialState = {
     title: "Asosiy panel"
 };
@@ -32,7 +33,7 @@ function reducer(state, action) {
     switch (action.type) {
         case "Dashboard": return { title: "Asosiy panel" };
         case "Fikrlash": return { title: "Fikrlash Vositalari" };
-        case "Fokus": return { title: "Fokus" };
+        case "Shaxsiy O'sish": return { title: "Shaxsiy O'sish" };
 
         default: return state
     }
@@ -46,7 +47,7 @@ function StudentPage() {
             case "/studentPage": dispatch({ type: "Dashboard" }); break;
             case "/studentPage/studentThought": dispatch({ type: "Fikrlash" }); break;
             case "/studentPage/StudentThinking": dispatch({ type: "Fokus" }); break;
-
+            case "/studentPage/StudentPersonalGrowth": dispatch({ type: "Shaxsiy O'sish" }); break;
         }
     }, [location.pathname])
 
@@ -59,13 +60,15 @@ function StudentPage() {
         deleteCookie("token");
         window.location.href = "/";
     };
+    console.log(localStorage.setItem("lastName", "Rahmatullayev"));
+    console.log(localStorage.setItem("phone", "901234567"))
 
 
-
-
+    fetch("http://64.23.232.25:8000/personal-growth/self-awareness/questions")
+        .then(data => data.json())
+        .then(data => console.log(data))
     return (
         <div className="flex w-[100%] min-h-screen">
-
             {/* Sidebar */}
             <div className="min-h-screen w-[17%] sticky top-0 border-r border-gray-200 flex flex-col  gap-6 h-screen overflow-hidden">
                 {/* Logo */}
@@ -82,7 +85,7 @@ function StudentPage() {
                     <NavLink to="/studentPage" end className={({ isActive }) => `group flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-semibold transition-all duration-200 ${isActive ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-200" : "text-gray-600 hover:bg-white hover:shadow-md hover:text-gray-900"}`}> <LuLayoutDashboard className="text-[20px]" /><span>Asosiy panel</span></NavLink>
                     <NavLink to="/studentPage/StudentThinking" className={({ isActive }) => `group flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-semibold transition-all duration-200 ${isActive ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-200" : "text-gray-600 hover:bg-white hover:shadow-md hover:text-gray-900"}`}  > <LuBrain className="text-[20px]" /> <span>Tafakkur</span> </NavLink>
                     <NavLink to="/studentPage/studentThought" className={({ isActive }) => `group flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-semibold transition-all duration-200 ${isActive ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-200" : "text-gray-600 hover:bg-white hover:shadow-md hover:text-gray-900"}`}> <AiOutlineTool className="text-[20px]" /> <span>Fikrlash Vositalari</span></NavLink>
-
+                    <NavLink to="/studentPage/StudentPersonalGrowth" className={({ isActive }) => `group flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-semibold transition-all duration-200 ${isActive ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-200" : "text-gray-600 hover:bg-white hover:shadow-md hover:text-gray-900"}`}> <MdOutlineTrendingUp className="text-[20px]" /> <span>Shaxsiy O'sish</span></NavLink>
                 </nav>
 
                 {/* Logout */}

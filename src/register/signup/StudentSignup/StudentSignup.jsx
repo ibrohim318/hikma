@@ -1,3 +1,5 @@
+import axios from "axios";
+
 import { useEffect, useState, useRef, useReducer } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -111,6 +113,7 @@ function StudentSignup() {
 
     const handleSubmit = async () => {
         let newErrors = {};
+
         if (!name.trim()) newErrors.name = true;
         if (!lastName.trim()) newErrors.lastName = true;
         if (!fatherName.trim()) newErrors.fatherName = true;
@@ -122,14 +125,16 @@ function StudentSignup() {
         if (!email.trim()) newErrors.email = true;
 
         setErrors(newErrors);
+
         if (Object.keys(newErrors).length > 0) {
             toast.error("Barcha maydonlarni to'ldiring!");
             return;
         }
 
         const cleanPhone = "998" + phone.replace(/\D/g, "");
+
         const payload = {
-            email: email,
+            email,
             first_name: name,
             last_name: lastName,
             father_name: fatherName,
@@ -141,36 +146,81 @@ function StudentSignup() {
             password: cleanPhone,
         };
 
-        console.log(payload);
+        console.log("Payload:", payload);
 
         try {
-            await register(ROLES.STUDENT, payload);
-            const loginRes = await fetch("https://hikma.uz/api/login", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ phone: cleanPhone, password: cleanPhone, email }),
-            });
+            // REGISTER
+            const registerData = await register(
+                ROLES.STUDENT,
+                payload
+            );
+
+            console.log("REGISTER RESPONSE:", registerData.user_id);
+            setIdr(registerData.user_id)
+            // IDR ID ni qidirish
+            console.log("IDR ID:", registerData?.idr_id);
+            console.log("User IDR:", registerData?.user?.idr_id);
+
+            // Agar IDR ID bo'lsa saqlaymiz
+            const idrID =
+                registerData?.idr_id ||
+                registerData?.user?.idr_id;
+
+            if (idrID) {
+                setIdr(idrID);
+                localStorage.setItem("idr_id", idrID);
+            }
+
+            // LOGIN
+            const loginRes = await fetch(
+                "https://hikma.uz/api/login",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        phone: cleanPhone,
+                        password: cleanPhone,
+                        email,
+                    }),
+                }
+            );
 
             const loginData = await loginRes.json();
-            if (!loginRes.ok) throw new Error("Login ishlamadi");
+
+            if (!loginRes.ok) {
+                throw new Error("Login ishlamadi");
+            }
 
             const token = loginData.access_token;
+
             if (token) {
                 setCookie("token", token);
                 localStorage.setItem("token", token);
             }
 
-            toast.success("Muvaffaqiyatli ro'yxatdan o'tdingiz!");
-            setLastname(lastName)
+            // Context
             setUserName(name);
-            setUserPhone(phone)
+            setLastname(lastName);
+            setUserPhone(phone);
+
+            toast.success(
+                "Muvaffaqiyatli ro'yxatdan o'tdingiz!"
+            );
+
             setSignupData(false);
             setStudentID(true);
             setNext(false);
+
         } catch (err) {
-            console.log(err);
+            console.log("XATOLIK:", err);
+            console.log("Response:", err?.response?.data);
+
             if (err?.response?.status === 409) {
-                toast.error("Bu telefon raqam allaqachon mavjud");
+                toast.error(
+                    "Bu telefon raqam allaqachon mavjud"
+                );
             } else {
                 toast.error("Xatolik yuz berdi");
             }
@@ -290,15 +340,7 @@ function StudentSignup() {
                             <div className="w-1/2">
                                 <h3 className="text-sm">Tuman</h3>
                                 <div className={`w-full h-[34px] bg-gray-100 rounded-lg mt-2 flex items-center px-3 border ${errors.district ? "border-red-500 animate-shake" : "border-transparent"} focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-200`}>
-                                    <select
-                                        value={regionState.district}
-                                        disabled={!regionState.region}
-                                        onChange={(e) => {
-                                            dispatch({ type: "SELECT_DISTRICT", payload: e.target.value });
-                                            setErrors(p => ({ ...p, district: false }));
-                                        }}
-                                        className="w-full h-full bg-transparent focus:outline-none disabled:text-gray-400"
-                                    >
+                                    <select value={regionState.district} disabled={!regionState.region} onChange={(e) => { dispatch({ type: "SELECT_DISTRICT", payload: e.target.value }); setErrors(p => ({ ...p, district: false })); }} className="w-full h-full bg-transparent focus:outline-none disabled:text-gray-400">
                                         <option hidden value="">
                                             {regionState.region ? "Tuman tanlang" : "Avval viloyat tanlang"}
                                         </option>
@@ -329,14 +371,13 @@ function StudentSignup() {
                     <center>
                         <div className="my-4 py-4 w-[100%] h-[170px] bg-blue-100 border border-blue-300 rounded-lg">
                             <h3 className="font-light text-md text-[#0084d1] tracking-wide">Sizning unikal IDR ID</h3>
-                            <p className="text-3xl text-[#0069a8] font-medium my-2">IDR-2026-2098</p>
+                            <p className="text-3xl text-[#0069a8] font-medium my-2">{idr}</p>
                             <button onClick={handleCopy} className="px-4 py-1 bg-[#f3f9ff] border border-[#8ddaff] text-[#1990d5] rounded-lg flex items-center justify-center gap-2 mx-auto">
                                 <MdContentCopy />{copied ? "Nusxalandi" : "Nusxalash"}
                             </button>
                         </div>
                         <div className="w-full grid grid-cols-10 gap-3 items-start justify-between">
-                            <button onClick={() => { setStudentID(false); setSignupData(true); }} className="col-span-4 mt-3.5 py-2 bg-white hover:bg-gray-100 transition-all duration-200 border border-gray-300 rounded-lg active:scale-95">Orqaga</button>
-                            <button onClick={goDashboard} className="col-span-6 mt-4 px-2.5 py-2 bg-blue-600 text-white rounded-lg active:scale-95 transition">
+                            <button onClick={goDashboard} className="col-span-10 mt-4 px-2.5 py-2 bg-blue-600 text-white rounded-lg active:scale-95 transition">
                                 {loading ? <Spinner className="size-8" /> : "Dashboardga o'tish"}
                             </button>
                         </div>

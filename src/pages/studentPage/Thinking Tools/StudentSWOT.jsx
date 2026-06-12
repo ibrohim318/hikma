@@ -2,6 +2,8 @@ import { useState } from "react";
 
 // axios
 import Post from "../../../CRUD/Post"
+import { useGet } from "@/CRUD/useGet";
+
 
 // loader
 import { RotatingLines } from "react-loader-spinner";
@@ -10,6 +12,11 @@ import { RotatingLines } from "react-loader-spinner";
 function StudentSWOT() {
     // post data
     const { generateSwot, loading, result, error } = Post();
+    // get data
+const { data, loader, err } = useGet("/growth/questions/swot"); 
+
+    console.log(data);
+
 
     // inputs
     const [strength, setStrength] = useState("")
@@ -26,7 +33,9 @@ function StudentSWOT() {
             threats: [threat]
         });
     }
+    const isFormValid = strength.trim() && weak.trim() && oportunites.trim() && threat.trim();
 
+  
     return (
         <div>
             <div className="w-full h-[60px] border rounded-lg bg-[#f5f3ff] px-4 py-1 flex items-center gap-3">
@@ -181,30 +190,14 @@ function StudentSWOT() {
                             </div>
                         </div>
                         <div className="mt-6">
-                            <button
-                                onClick={handleSubmit}
-                                disabled={loading}
-                                className="w-full h-11 rounded-xl bg-gradient-to-r from-emerald-500 to-green-600 text-white font-medium text-sm shadow-lg shadow-green-500/20 hover:from-emerald-600 hover:to-green-700 hover:shadow-green-500/30 active:scale-[0.98] transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-80 flex items-center justify-center gap-2"
-                            >
+                            <button onClick={handleSubmit} disabled={!isFormValid || loading} className={`w-full h-11 rounded-xl text-white font-medium text-sm flex items-center justify-center gap-2 transition-all duration-300${isFormValid ? "bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700" : "bg-gray-300 cursor-not-allowed"}`}>
                                 {loading ? (
                                     <>
-
-                                        (<RotatingLines
-                                            visible={true}
-                                            height="36"
-                                            width="36"
-                                            color="white"
-                                            strokeWidth="5"
-                                            animationDuration="0.75"
-                                            ariaLabel="rotating-lines-loading"
-                                            wrapperStyle={{}}
-                                            wrapperClass=""
-                                        />)
+                                        <RotatingLines visible={true} height="20" width="20" strokeColor="white" strokeWidth="4" animationDuration="0.75"
+                                        />
                                         <span>Yuborilmoqda...</span>
                                     </>
-                                ) : (
-                                    "SWOT tahlil qilish"
-                                )}
+                                ) : ("SWOT tahlil qilish")}
                             </button>
                         </div>
                     </div>

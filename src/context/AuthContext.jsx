@@ -23,7 +23,7 @@ export function AuthProvider({ children }) {
     const [userPhone, setUserPhone] = useState(
         localStorage.getItem("phone") || ""  // ← "a" olib tashlandi, || "" qo'shildi
     );
-    
+
     const updatePhone = (userPhone) => {
         setUserPhone(userPhone);                    // ← setLastname emas
         localStorage.setItem("phone", userPhone);  // ← "lastName" emas
